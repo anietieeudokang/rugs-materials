@@ -18,7 +18,7 @@ There are a lot of resources and ideas for doing well, [here](https://blog.revol
 
 ## Submitting Material
 
-All documents should be shown as either a quarto file or R notebook file?
+All documents should be shown as either a quarto file or R notebook file.
 
 Presentations can be in quarto, linked google slides or other accptable data formats. 
 
