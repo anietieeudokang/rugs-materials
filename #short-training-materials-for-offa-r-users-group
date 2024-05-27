@@ -1,0 +1,929 @@
+INTRODUCTION TO PROBABILITY USING R
+BEING A SHORT TRAINING PRESENTED AT OFFA R USERS GROUP MEETING ON 13TH FEBRUARY, 2024 AT STATISTICAL LABORATORY, STATISTICS DEPARTMENT, THE FEDERAL POLYTECHNIC OFFA, NIGERIA BY UDOKANG, ANIETIE EDEM (OGANIZER, ORUG) CHIF LECTURER, STATISTICS DEPARTMENT,THE FEDERAL POLYTECHNIC OFFA, NIGERIA
+#Introduction This topic is carefully chosen because of the important of probability in Statistics, most especially when it has to do with inferential Statistics. We deal with probability in many fields of Statistics such as Econometrics, Time Series, Biostatistics, Medical Statistics, Sampling Theory, Inference and Business Statistics. Welcome on board as we discuss the elementary part of Statistics that has to do with the Concepts of Probability. Before then, let’s get ourselves familiar with R Software. #What is R? R is a free statistical software created by statisticians Ross Ihaka and Robert Gentleman and supported by R Core Team and the R Foundation for Statistical Computing. #Where can I Find R? Visit: https://cran.r-project.org/ Follow the instructions for free download and install in your system. Display of the R Console (A Tool to type command and see the result of the command)
+#What is Probability? Probability can be defined as a quantity from 0 to 1used to measure the likelihood or the chance of an event occurring. #Two Approaches of Probability *Classical Approach -This probability approach assumes equally likely outcomes based on prior knowledge.
+*Relative Frequency – This approach is based on observed occurrences over a large number of trials. Formula P(A) = n(A)/n(S) Or P(A) = f/n Where P(A) = number of event A n(S) = number all possible events = sample space f = frequency of a sub group n = Total frequency of all the groups = sample size
+##llustrative Examples (R-4.4.0) #Example 1 (Classical Approach) An unbiased coin has two sides Head (H) and Tail (T). This implies that each side has an equal chance of occurrence when toss or flip. What is the probability of having a head when the coin is tossed once?
+outcomes <- c("Head", "Tail")
+total_outcomes <- length(outcomes)
+total_outcomes
+## [1] 2
+head.outcome <- length(outcomes[outcomes == "Head"])
+head.outcome 
+## [1] 1
+prob.head <- head.outcome / total_outcomes
+prob.head
+## [1] 0.5
+#Example 2 (Classical Approach) Consider a situation that an unbiased coin is tossed twice or two of the coins are tossed twice. The sample space is HH, HT, TH and TT. What is the probability of having two heads?
+outcomes <- c("HH", "HT", "TH", "TT")
+total_outcomes <- length(outcomes)
+total_outcomes
+## [1] 4
+head.outcomes <- length(outcomes[outcomes == "HH"])
+head.outcomes
+## [1] 1
+prob.head <- head.outcomes / total_outcomes
+prob.head
+## [1] 0.25
+#Example 3 (Relative Frequency Approach) The scores and grades students in an examination are 75 (A), 75 (A), 70 (AB), 70 (AB), 70 (AB), 70 (AB), 70(AB), 66(B), 66 (B) and 66(B). What is the probability of a student having AB in the examination? There are ten students in the sample space, out which three have AB.
+grades <- c("A", "A", "AB", "AB","AB","AB","AB","B","B","B")
+total.grades <- length(grades)
+total.grades
+## [1] 10
+AB.grades <- length(grades[grades == "AB"])
+AB.grades
+## [1] 5
+prob.AB <- AB.grades / total.grades
+prob.AB
+## [1] 0.5
+We can as well put up a frequency distribution table and get the probabilities of 75 (A), AB (70) and B (66).
+Score<-c(75,75,70,70,70,70,70,66,66,66)
+factor(Score)
+##  [1] 75 75 70 70 70 70 70 66 66 66
+## Levels: 66 70 75
+table(Score)
+## Score
+## 66 70 75 
+##  3  5  2
+prop.table(table(Score))
+## Score
+##  66  70  75 
+## 0.3 0.5 0.2
+#Probability Properties with Illustrations and Examples 1. 0<P(A)<1, where A is an event. 2. P(A) = 1 – P(AI), where AI is the complement of A.
+3.	P(Φ) = 0, where Φ is the null or empty set.
+4.	P(S) = 1, where S is the sample space. ##Illustrative Examples of the properties Let a set S be a sample space with all integers from 1 to 10 inclusive. Then S = {1,2,3,4,5,6,7,8,9,10} Let A be all the elements in S less than 5. A = {1,2,3,4,} Let B be all the elements in S more than 4. B = {5,6,7,8,9,10} This example will be use to explain properties 1 to 4. #Property 1 0<P(A)<1 Property one will be seen while illustrating propertie 2to 3. #Property 2 P(A) = 1 – P(AI) R Code (the step by step codes are written to aid in the illustration)
+S <- c(1,2,3,4,5,6,7,8,9,10)
+A<- c(1,2,3,4)
+B<- c(5,6,7,8,9,10)
+A.Complement=res <- S[is.na(pmatch(S,A))]
+A.Complement
+## [1]  5  6  7  8  9 10
+length(S)
+## [1] 10
+length(A)
+## [1] 4
+length(A.Complement)
+## [1] 6
+prob.A <- sum(length(A)) / length(S)
+prob.A
+## [1] 0.4
+prob.A.Complement <- sum(length(A.Complement)) / length(S)
+prob.A.Complement
+## [1] 0.6
+prob.A=1- prob.A.Complement 
+prob.A
+## [1] 0.4
+##Property 3 P(Φ) = 0 In the example let’s find the intersection between A and B with its probability.
+S <- c(1,2,3,4,5,6,7,8,9,10)
+length(S)
+## [1] 10
+A<-c(1,2,3,4)
+B<-c(5,6,7,8,9,10)
+phi=intersect(A, B)
+length(phi)
+## [1] 0
+prob_to_find <- c(phi)
+prob.phi<- sum(length(phi)) / length(S)
+prob.phi
+## [1] 0
+#Property 4 P(S) = 1
+S <- c(1,2,3,4,5,6,7,8,9,10)
+length(S)
+## [1] 10
+prob.S <- sum(length(S)) / length(S)
+prob.S
+## [1] 1
+#Rules or Laws of Probability An extension to the properties above are addition, multiplication and conditional laws of probability. ##Addition Law of Probability If A, B and C are subsets of S, then 1.P(A U B) = P(A) + P(B) if A and B are independent events also P(A U C) = P(A) + P(C) if A and C are independent events. 2.P(A U B) = P(A) + P(B) – P(A ∩ B) if A and B are dependent events. *3.P(A U B U C) = P(A) + P(B) + P(C) - P(A∩B) – P(A∩C) – P(B∩C) + P(A∩B∩C) if A, B and C are dependent events. #Illustrative Example Set theory will be used to explain the laws of probability laws. Let’s consider a sample space S with only three sets A and B. Let S = {21,43, 22,35,50,60,20,45, 48, 57,64,67,82,33,44,80,90} A = {21,43,22,50,48,,57,80} B = {22,35,60,20,45,64,67,82,33,44} C ={22,43,50,45,82,33,82,60,90} What is the probability of AUB? P(AUB) = n(AUB)/n(S) P(A) = n(A)/n(S) P(B) = n(B)/n(S) P(A ∩ B) = n(A ∩ B)/n(S)
+S <- c(21,43, 22,35,50,60,20,45, 48, 57,64,67,82,33,44,80,90)
+length(S)
+## [1] 17
+A<-c(21,43,22,50,48,57,80)
+length(A)
+## [1] 7
+prob.A<- sum(length(A)) / length(S)
+    prob.A
+## [1] 0.4117647
+B<-c(22,35,60,20,45,64,67,82,33,44)
+length(B)
+## [1] 10
+prob.B<- sum(length(B)) / length(S)
+    prob.B
+## [1] 0.5882353
+AUB=union(A,B)
+AUB
+##  [1] 21 43 22 50 48 57 80 35 60 20 45 64 67 82 33 44
+length(AUB)
+## [1] 16
+prob.AUB<- sum(length(AUB)) / length(S)
+prob.AUB
+## [1] 0.9411765
+AB=intersect(A, B)
+AB
+## [1] 22
+length(AB)
+## [1] 1
+prob_to_find <- c(AB)
+prob.AB<- sum(length(AB)) / length(S)
+prob.AB
+## [1] 0.05882353
+Lets cross check the result of P(AUB)
+prob.AUB = 0.4117647+ 0.5882353- 0.05882353
+prob.AUB
+## [1] 0.9411765
+Venn Diagram
+library(VennDiagram) 
+## Loading required package: grid
+## Loading required package: futile.logger
+grid.newpage() 
+draw.pairwise.venn(area1=7, area2=10,cross.area=1, 
+category=c("A","B"),fill=c("Green","Blue"))
+ 
+## (polygon[GRID.polygon.1], polygon[GRID.polygon.2], polygon[GRID.polygon.3], polygon[GRID.polygon.4], text[GRID.text.5], text[GRID.text.6], text[GRID.text.7], text[GRID.text.8], text[GRID.text.9])
+###Try P(AUBUC) #Multiplication Law of Probability If A and B are subsets of S, then 1.P(A ∩ B) = P(A). P(B) if A and B are independent events 2.P (A ∩ B) = P(A).P(B/A) if A and B are dependent events
+Illustrative Example Let’s consider in a football field there are 100 footballs of two colours of 30 ash and 70 blue. Let A represents ash colour footballs B represents blue colour footballs S represents ash and blue colour footballs If two footballs are selected for training, one after the other with replacement, what is the probability that the first is ash and the second blue? P(ash colour football) = P(A) = n(A)/n(S) P(blue colour football) = P(B) = n(B)/n(S) P(first ash and second blue) = P(A and B) = P(AB) = P(A ∩ B) = P(A). P(B) [since the process of selection is with replacement] #Let S represent all the football #Let A represent ash colour football #Let B represent blue colour football
+n.S=100
+n.A=30
+n.B=70
+n.B=70
+    prob.A=n.A/n.S
+    prob.A
+## [1] 0.3
+prob.B=n.B/n.S
+    prob.B
+## [1] 0.7
+prb.AB=prob.A*prob.B
+    prb.AB
+## [1] 0.21
+#What is the probability that the first is ash and the second blue if the process of selection is without replacement? P(blue given that it was ash) = P(B/A) = n(B)/(n(S)-1) P(first ash and second blue) = P(A and B) = P(AB) = P(A ∩ B) = P(A). P(B/A) [since the process of selection is without replacement]
+prob.A=n.A/n.S
+prob.A
+## [1] 0.3
+prob.BgivenA=n.B/(n.S-1)
+prob.BgivenA
+## [1] 0.7070707
+prb.AB=prob.A*prob.BgivenA
+prb.AB
+## [1] 0.2121212
+#Conditional Law of Probability This probability explains how to get the probability of having an event base on the fact that another event occurred.
+##Probability of event A given that B has occurred.
+  P(A/B)=P(AB)/P(B)
+ 
+#Illustrative Example Let’s consider the illustration in addition law of probability using sets. Let’s consider a sample space S with only three sets A and B. Let S = {21,43, 22,35,50,60,20,45, 48, 57,64,67,82,33,44,80,90} A = {21,43,22,50,48,,57,80} B = {22,35,60,20,45,64,67,82,33,44} C ={22,43,50,45,82,33,82,60,90} What is the probability of P(A/B)?
+S <- c(21,43, 22,35,50,60,20,45, 48, 57,64,67,82,33,44,80,90)
+length(S)
+## [1] 17
+A<-c(21,43,22,50,48,57,80)
+length(A)
+## [1] 7
+prob.A<- sum(length(A)) / length(S)
+    prob.A
+## [1] 0.4117647
+B<-c(22,35,60,20,45,64,67,82,33,44)
+length(B)
+## [1] 10
+prob.B<- sum(length(B)) / length(S)
+    prob.B
+## [1] 0.5882353
+AB=intersect(A,B)
+AB
+## [1] 22
+length(AB)
+## [1] 1
+prob.AB<- sum(length(AB)) / length(S)
+prob.AB
+## [1] 0.05882353
+prob.AgivenB= prob.AB/prob.B
+prob.AgivenB
+## [1] 0.1
+#We have come to the end of the training today. The Offa-R-Users-Group (ORUG) is a place to learn and share knowledge in the use of R. I wish to see you next time. If you are a guest, find time to register as a member to actualize your goal in using R. The ORUG (https://www.meetup.com/fedpofa-r-users-group/ ) is sponsored by R Consortium and AniKem_Consult. For any Enquiry Contact the Organizer (WhatsApp: +2349030912602, email: anietieeu@yahoo.com)
+#THANK YOU FOR PARTICIPATING IN THIS EVENT
+
+DATA SCIENCE: AN OVERVIEW IN R
+##DATA SCIENCE: AN OVERVIEW IN R BEING AN ONLINE SHORT PRESENTATION IN OFFA-R-USERS-GROUP (ORUG) MEETING ON 31ST MAY, 2023 BY UDOKANG, ANIETIE EDEM (OGANIZER, ORUG) CHIF LECTURER, STATISTICS DEPARTMENT, THE FEDERAL POLYTECHNIC OFFA, NIGERIA
+##Introduction  Data science is an exciting discipline that allows you to turn raw data into understanding, insight, and knowledge.  People prefer visualization to descriptions.  Therefore, installing R to your systems shall be done today so that gradually we will get to some applications in subsequent meetings. ##What is Data Science?  This is a process of collecting/recording, storing and analyzing of big data.  Sources of data: Social media, Internet, Satellite images, e-commerce sites, healthcare surveys  Develop methods to effectively extract useful information for decision making on real life situation ##What are the Difference between Statisticians and Data Scientists? #Statisticians
+Deal with small-scale data. Work on improving one simple model to best fit the data.
+Only analysis data. #Data Scientist Work on massive data (big data). Try out different methods to create machine learning models, and then they choose the method that results in the best model. Go beyond data analysis to implement algorithms that process data automatically. The critical stage of data science is data cleaning. ##What is Data Cleaning? When data is collected mostly in raw form it has to be arranged/transformed to have a reasonable structure that can be meaningful and useful. *Data cleaning usually takes care of • The missing values • The formatting of values • The structure of the data overall • Extracting information from complex values • Unit conversion.
+An important tool of data science is data visualization.
+##What is Data Visualization? This is a way of bringing data to life that can convey trends and anomalies in the data more efficiently than a written description. Data visualization is a great way to communicate your predictions and conclusions to other people by using a useful tool as R software and its packages. *Data visualization can be described as the graphical representation of information and data. By using visual elements like charts, tables, graphs, maps, infographics and dashboards. Data visualization tools provide an accessible way to see and understand trends, outliers, and patterns in data.
+##Examples of Data Visualization: *Examples in three categories; • Time series data visualization • Interactive data visualization • Static data visualization. ##Examples of Time Series Data Visualisation •Line Chart •Bar Chart •Scatter Chart •Area Chart •Map •Indicator • Pivot Table • Bullet Graph • Box plot • Matrix
+##What is R ? •R is a language and environment for statistical computing and graphics. It is a GNU project which is similar to the S language and environment which was developed at Bell Laboratories (formerly AT&T, now Lucent Technologies) by John Chambers and colleagues. •R packages can be found in Comprehensive R Archive Network (CRAN) repository. It’s a huge repository of R packages that users can easily contribute to.
+#Why R? The following points is why R is attractive. i. R is mainly used when the data analysis tasks require standalone computing or analysis on individual servers. ii. R focuses on better, user-friendly data analysis, statistics and graphical models. iii. R has been used primarily in academics and research. However, it’s rapidly expanding into the enterprise market. iv. Statistical models can be written with only a few lines in R and the same piece of functionality can be written in several ways in R. *v. Once you know the basics, you can easily learn advanced techniques.
+#Some R Packages for Data Cleaning: • The Plyr Package • The Stringr Package • The tidyr package • The sqldf package • The janitor package • The splitstackshape package
+#Some R Packages for Data Visualization: • Colourpicker • Esquisse • ggplot2 • ggvis • ggforce • Lattice • Plotly • Patchwork • Quantmod • RGL
+#TODAY WE HAVE LEARNT ABOUT DATA SCIENCE WITH R AND WHAT WE CAN USE TO ACHIEVE SUCH AS DATA CLEANING AND VISUALISATION. IN SUBSEQUENT MEETINGS WE WILL USE THE R PACKAGES TO RUN CODES TO ACTUALIZE WHAT WE LEARNT. #THANK YOU AND HAVE A NICE DAY
+
+
+INTRODUCTION TO R FOR DATA SCIENCE PART I
+##BEING A SHORT TRAINING MATERIAL USED AT OFFA R USERS GROUP MEETING ON 31ST OCTOBER, 2023 AT NO. 15 OLD IRRA GARAGE IRRA ROAD, OFFA, KWARA STATE, NIGERIA
+PREPARED BY UDOKANG, ANIETIE EDEM (OGANIZER, ORUG) CHIF LECTURER, STATISTICS DEPARTMENT, THE FEDERAL POLYTECHNIC OFFA, NIGERIA
+#Introduction Today we want to look at the world of data science, the different between data scientist and statistician and the role/use of R software in data science. Data science is an exciting discipline that allows you to turn raw data into understanding, insight, and knowledge. The world today needs data science more than ever before because people prefer visualization than descriptions. The training will focus also on some aspects of data cleaning which mostly spent in data analysis. #What is R? R is a language and environment for statistical computing and graphics. It is a GNU project which is similar to the S language and environment which was developed at Bell Laboratories (formerly AT&T, now Lucent Technologies) by John Chambers and colleagues. R can be considered as a different implementation of S. There are some important differences, but much code written for S runs unaltered under R (https://www.r-project.org/about.html). GNU (pronounced guh-noo) is a Unix-like computer operating system developed by the GNU project, Free Software Foundation. R has so many packages that can be installed in R. These packages can be found in Comprehensive R Archive Network (CRAN) repository. It’s a huge repository of R packages that users can easily contribute to.
+#Why R? The following points is why R is attractive. i. R is mainly used when the data analysis tasks require standalone computing or analysis on individual servers. ii. R focuses on better, user-friendly data analysis, statistics and graphical models. iii. R has been used primarily in academics and research. However, it’s rapidly expanding into the enterprise market. iv. Statistical models can be written with only a few lines in R and the same piece of functionality can be written in several ways in R. *v. Once you know the basics, you can easily learn advanced techniques and R is not hard for experienced programmers.
+#How to download R and its Packages Visit https://cran.r-project.org/ to download and install R version of your choice free of charge. Open the installed R and go to Packages - Install Package(s) – Select CRAN Mirror – Select Package to install and upload. #The R Environment R software environment is used to run code written in R language. This made up of R console and R editor. Go to file – New script to get R-Editor
+#R Code The code can be written on the R console or run from R editor or copy and paste. #What is Data Science? This is a process of collecting/recording, storing and analyzing of data, mostly big data, from sources like social media, internet, satellite images, e-commerce sites, healthcare surveys and develop methods to effectively extract useful information for decision making on real life situation. Therefore, data science can also be described as “The application of data-centric computational and inferential thinking to understand the world and solve problems” according to Professor Joseph Gonzalez of University of California, Berkeley.
+#What are the Difference between Statisticians and Data Scientists? The audience today are mostly statisticians or familiar with statistical analysis. Let me briefly discuss the difference between statisticians and data scientists.
+#Statisticians
+Deal with small-scale data collection using methods such as surveys, polls, and experiments. Work on improving one simple model to best fit the data. Only analysis data.
+#Data Scientist Work on massive data (big data) which involves a lot of time in tasks like large-scale data collection and cleaning. Try out different methods to create machine learning models, and then they choose the method that results in the best model. Go beyond data analysis to implement algorithms that process data automatically. This enables data scientists to provide automated predictions and actions. An example is automation that helps with weather forecasts The critical stage of data science is data cleaning. #What is Data Cleaning? When data is collected mostly in raw form it has to be arranged/transformed to have a reasonable structure that can be meaningful and useful. Data cleaning usually takes care of some of the issues as the missing values, the formatting of values, the structure of the data, extracting information from complex values and unit conversion. One of the R packages that handles this aspect is tidyr. To use the package in R, use the library function.
+#Creating data frame (df) in R
+X<-c(1,3,4,5,6,8,10,12,5,8,9,11)
+Y<-c(2,3,6,8,9,12,23,21,54,30,44,13)
+df<-data.frame(X,Y)
+df
+##     X  Y
+## 1   1  2
+## 2   3  3
+## 3   4  6
+## 4   5  8
+## 5   6  9
+## 6   8 12
+## 7  10 23
+## 8  12 21
+## 9   5 54
+## 10  8 30
+## 11  9 44
+## 12 11 13
+#OR
+X=c(1,3,4,5,6,8,10,12,5,8,9,11)
+Y=c(2,3,6,8,9,12,23,21,54,30,44,13)
+df<-data.frame(X,Y)
+df
+##     X  Y
+## 1   1  2
+## 2   3  3
+## 3   4  6
+## 4   5  8
+## 5   6  9
+## 6   8 12
+## 7  10 23
+## 8  12 21
+## 9   5 54
+## 10  8 30
+## 11  9 44
+## 12 11 13
+#To be sure df is a data frame
+print(class(df))
+## [1] "data.frame"
+print(df)
+##     X  Y
+## 1   1  2
+## 2   3  3
+## 3   4  6
+## 4   5  8
+## 5   6  9
+## 6   8 12
+## 7  10 23
+## 8  12 21
+## 9   5 54
+## 10  8 30
+## 11  9 44
+## 12 11 13
+#More examples of data frame
+x<-c("a","b","c","d","e","f","g","h","I","j","k")
+f<-c(2,3,5,2,1,4,3,2,5,7,8)
+df<-data.frame(x,f)
+df
+##    x f
+## 1  a 2
+## 2  b 3
+## 3  c 5
+## 4  d 2
+## 5  e 1
+## 6  f 4
+## 7  g 3
+## 8  h 2
+## 9  I 5
+## 10 j 7
+## 11 k 8
+x<-c("a","b","c","d","e","f","g","h","I","j","k")
+f.<-c(2,3,5,2,1,4,3,2,5,7,8)
+y<-c("Ben","Philip","Segun","Ani","Tom","Okon","Jide","Chidi","Betty","Bros","Ken")
+f..<-c(21,23,45,26,19,46,43,62,52,71,88)
+df<-data.frame(x,f.,y,f..)
+df
+##    x f.      y f..
+## 1  a  2    Ben  21
+## 2  b  3 Philip  23
+## 3  c  5  Segun  45
+## 4  d  2    Ani  26
+## 5  e  1    Tom  19
+## 6  f  4   Okon  46
+## 7  g  3   Jide  43
+## 8  h  2  Chidi  62
+## 9  I  5  Betty  52
+## 10 j  7   Bros  71
+## 11 k  8    Ken  88
+print(df)
+##    x f.      y f..
+## 1  a  2    Ben  21
+## 2  b  3 Philip  23
+## 3  c  5  Segun  45
+## 4  d  2    Ani  26
+## 5  e  1    Tom  19
+## 6  f  4   Okon  46
+## 7  g  3   Jide  43
+## 8  h  2  Chidi  62
+## 9  I  5  Betty  52
+## 10 j  7   Bros  71
+## 11 k  8    Ken  88
+df<-data.frame(rating=1:11,x,f.,y,f..)
+df
+##    rating x f.      y f..
+## 1       1 a  2    Ben  21
+## 2       2 b  3 Philip  23
+## 3       3 c  5  Segun  45
+## 4       4 d  2    Ani  26
+## 5       5 e  1    Tom  19
+## 6       6 f  4   Okon  46
+## 7       7 g  3   Jide  43
+## 8       8 h  2  Chidi  62
+## 9       9 I  5  Betty  52
+## 10     10 j  7   Bros  71
+## 11     11 k  8    Ken  88
+#Structuring of the data into character/variable and corresponding values
+library(tidyr)
+xf<- tibble(x = c("x1", "x2","x3","x4"),f1 = c(1, 4, 2, 5), f2 = c(3, 4, 6, 2),)
+xf
+## # A tibble: 4 × 3
+##   x        f1    f2
+##   <chr> <dbl> <dbl>
+## 1 x1        1     3
+## 2 x2        4     4
+## 3 x3        2     6
+## 4 x4        5     2
+xf is the data frame (df)
+#Removing missing data
+xf<- tibble(x = c("x1", NA,"x3","x4"),f = c(1, NA, 2, 5),)
+xf
+## # A tibble: 4 × 2
+##   x         f
+##   <chr> <dbl>
+## 1 x1        1
+## 2 <NA>     NA
+## 3 x3        2
+## 4 x4        5
+drop_na(xf)
+## # A tibble: 3 × 2
+##   x         f
+##   <chr> <dbl>
+## 1 x1        1
+## 2 x3        2
+## 3 x4        5
+#Replacing missing value with specified value
+xf<- tibble(x = c("x1", NA,"x3","x4"),f = c(1, NA, 2, 5),)
+xf %>% replace_na(list(x = "x2", f = 4))
+## # A tibble: 4 × 2
+##   x         f
+##   <chr> <dbl>
+## 1 x1        1
+## 2 x2        4
+## 3 x3        2
+## 4 x4        5
+#Filling missing values up with the preceding values
+xf<-tibble(x=c("x1","x2","x3","x4","x5","x6","x7","x8","x9","x10"),f=c(1,4,2, NA,NA,6,7,9,NA,NA),)
+xf
+## # A tibble: 10 × 2
+##    x         f
+##    <chr> <dbl>
+##  1 x1        1
+##  2 x2        4
+##  3 x3        2
+##  4 x4       NA
+##  5 x5       NA
+##  6 x6        6
+##  7 x7        7
+##  8 x8        9
+##  9 x9       NA
+## 10 x10      NA
+xf1 <- xf %>% fill(f, .direction = 'up')
+xf1
+## # A tibble: 10 × 2
+##    x         f
+##    <chr> <dbl>
+##  1 x1        1
+##  2 x2        4
+##  3 x3        2
+##  4 x4        6
+##  5 x5        6
+##  6 x6        6
+##  7 x7        7
+##  8 x8        9
+##  9 x9       NA
+## 10 x10      NA
+#Filling missing values down with the preceding values
+xf2 <- xf1 %>% fill(f, .direction = 'down')
+xf2
+## # A tibble: 10 × 2
+##    x         f
+##    <chr> <dbl>
+##  1 x1        1
+##  2 x2        4
+##  3 x3        2
+##  4 x4        6
+##  5 x5        6
+##  6 x6        6
+##  7 x7        7
+##  8 x8        9
+##  9 x9        9
+## 10 x10       9
+#Splitting columns using “separate” function
+GP<- tibble(id = 1:2, x = c("m-360", "f-580"))
+GP
+## # A tibble: 2 × 2
+##      id x    
+##   <int> <chr>
+## 1     1 m-360
+## 2     2 f-580
+#GP is the data frame (df) representing population by gender
+df %>% separate(x, c("gender", "unit"))
+## Warning: Expected 2 pieces. Missing pieces filled with `NA` in 11 rows [1, 2, 3, 4, 5,
+## 6, 7, 8, 9, 10, 11].
+##    rating gender unit f.      y f..
+## 1       1      a <NA>  2    Ben  21
+## 2       2      b <NA>  3 Philip  23
+## 3       3      c <NA>  5  Segun  45
+## 4       4      d <NA>  2    Ani  26
+## 5       5      e <NA>  1    Tom  19
+## 6       6      f <NA>  4   Okon  46
+## 7       7      g <NA>  3   Jide  43
+## 8       8      h <NA>  2  Chidi  62
+## 9       9      I <NA>  5  Betty  52
+## 10     10      j <NA>  7   Bros  71
+## 11     11      k <NA>  8    Ken  88
+#Splitting columns using “strsplit” function
+Students<- data.frame(Programme = c("ND Statistics", "HND Computer", "NID Welding", "BTECH Civil"), Pop = c(120, 200, 180, 78) )
+Students
+##       Programme Pop
+## 1 ND Statistics 120
+## 2  HND Computer 200
+## 3   NID Welding 180
+## 4   BTECH Civil  78
+Students[c("Programme","Department")]<- do.call(rbind, strsplit(Students$Programme, " "))
+print(Students)
+##   Programme Pop Department
+## 1        ND 120 Statistics
+## 2       HND 200   Computer
+## 3       NID 180    Welding
+## 4     BTECH  78      Civil
+#Uniting columns using “unite” function
+x<-c("B","P","S","A","T","O","J","C","BT","BR","K")
+y<-c("Ben","Philip","Segun","Ani","Tom","Okon","Jide","Chidi","Betty","Bros","Ken")
+df<-data.frame(x,y)
+df
+##     x      y
+## 1   B    Ben
+## 2   P Philip
+## 3   S  Segun
+## 4   A    Ani
+## 5   T    Tom
+## 6   O   Okon
+## 7   J   Jide
+## 8   C  Chidi
+## 9  BT  Betty
+## 10 BR   Bros
+## 11  K    Ken
+ z<-data.frame(x=c("B","P","S","A","T","O","J","C","BT","BR","K"),y=c("Ben","Philip","Segun","Ani","Tom","Okon","Jide","Chidi","Betty","Bros","Ken"))
+df %>% unite("z", x:y, remove = FALSE)
+##           z  x      y
+## 1     B_Ben  B    Ben
+## 2  P_Philip  P Philip
+## 3   S_Segun  S  Segun
+## 4     A_Ani  A    Ani
+## 5     T_Tom  T    Tom
+## 6    O_Okon  O   Okon
+## 7    J_Jide  J   Jide
+## 8   C_Chidi  C  Chidi
+## 9  BT_Betty BT  Betty
+## 10  BR_Bros BR   Bros
+## 11    K_Ken  K    Ken
+df %>% unite("z", x:y, remove = TRUE)
+##           z
+## 1     B_Ben
+## 2  P_Philip
+## 3   S_Segun
+## 4     A_Ani
+## 5     T_Tom
+## 6    O_Okon
+## 7    J_Jide
+## 8   C_Chidi
+## 9  BT_Betty
+## 10  BR_Bros
+## 11    K_Ken
+#We appreciate your patient and interest in participating in the discussion today. The Offa-R-Users-Group (ORUG) is a place to learn and share knowledge in the use of R. I wish to see you next time. If you are a guest, find time to register as a member to actualize your goal in using R. The ORUG (https://www.meetup.com/fedpofa-r-users-group/ ) is sponsored by R Consortium and AniKem_Consult. For any Enquiry Contact the Organizer (WhatsApp: +2349030912602, email: anietieeu@yahoo.com)
+#THANK YOU FOR PARTICIPATING IN THIS EVENT
+
+
+SELECTED DESCRIPTIVE AND INFERENTIAL STATISTICS IN R FOR UNDERGRADUATE PROJECT
+BEING A PRACTICAL AND DEMONSTRATION SESSSION HELD ON THURSDAY, 18TH MAY, 2023 AT STATISTICS DEPARTMENT, THE FEDERAL POLYTECHNIC OFFA
+BY DR. ABDULKABIR MURITALA
+Descriptives Statistics simulation
+x=rnorm(100)
+mean(x)
+## [1] 0.1227049
+var(x)
+## [1] 1.054929
+sd(x)
+## [1] 1.027097
+median(x)
+## [1] 0.04950565
+summary(x)
+##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## -2.38564 -0.41825  0.04951  0.12270  0.69701  2.78144
+barplot(x)
+ 
+hist(x)
+ 
+qqnorm(x)
+ 
+boxplot(x)
+ 
+dotchart(x)
+ 
+#Real life data
+x=c(1,3,5,6,7,8,9,3,2,4)
+y=c(2,3,5,6,7,8,4,3,2,1)
+z=c(2,3,4,1,2,5,6,7,8,9)
+boxplot(x,y,z)
+ 
+boxplot(x,y,z,horizontal=T)
+ 
+boxplot(x,y,z,horizontal=T,names=c("A","B","C"))
+ 
+boxplot(x,y,z,horizontal=T,names=c("A","B","C"),col=c("red","black","blue"))
+ 
+par(mfrow=c(2,2))
+barplot(x,y,z)
+hist(x)
+ 
+#Inferential Statistics ##chi sqaure
+data <- matrix(c(100, 70, 20, 90, 75, 25), ncol=3, byrow=TRUE)
+colnames(data) <- c("Rep","Dem","Ind")
+rownames(data) <- c("Male","Female")
+data <- as.table(data)
+data
+##        Rep Dem Ind
+## Male   100  70  20
+## Female  90  75  25
+chisq.test(data)
+## 
+##  Pearson's Chi-squared test
+## 
+## data:  data
+## X-squared = 1.2543, df = 2, p-value = 0.5341
+#one sample t.test
+daily.sales=c(5260,5470,5640,6180,6390,6515,6805,7515,7515,8230,8770)
+mean(daily.sales)
+## [1] 6753.636
+sd(daily.sales)
+## [1] 1142.123
+quantile(daily.sales)
+##   0%  25%  50%  75% 100% 
+## 5260 5910 6515 7515 8770
+t.test(daily.sales)
+## 
+##  One Sample t-test
+## 
+## data:  daily.sales
+## t = 19.612, df = 10, p-value = 2.599e-09
+## alternative hypothesis: true mean is not equal to 0
+## 95 percent confidence interval:
+##  5986.348 7520.925
+## sample estimates:
+## mean of x 
+##  6753.636
+t.test(daily.sales,mu=7000)
+## 
+##  One Sample t-test
+## 
+## data:  daily.sales
+## t = -0.71542, df = 10, p-value = 0.4907
+## alternative hypothesis: true mean is not equal to 7000
+## 95 percent confidence interval:
+##  5986.348 7520.925
+## sample estimates:
+## mean of x 
+##  6753.636
+#Two sample
+dat=read.csv("hnd.csv")
+attach(dat)
+t.test(exp~sex,var.equal=T)
+## 
+##  Two Sample t-test
+## 
+## data:  exp by sex
+## t = -0.97163, df = 9, p-value = 0.3566
+## alternative hypothesis: true difference in means between group F and group M is not equal to 0
+## 95 percent confidence interval:
+##  -3.328219  1.328219
+## sample estimates:
+## mean in group F mean in group M 
+##               5               6
+#Paired sample t-test
+dat=read.csv("hnd2.csv")
+t.test(dat$pre,dat$post,paired=T)
+## 
+##  Paired t-test
+## 
+## data:  dat$pre and dat$post
+## t = 4.3846, df = 9, p-value = 0.001759
+## alternative hypothesis: true mean difference is not equal to 0
+## 95 percent confidence interval:
+##  0.9197319 2.8802681
+## sample estimates:
+## mean difference 
+##             1.9
+#Regression
+x1=runif(50,2,3)
+x2=rnorm(50,4,1)
+y=2*x1+x2
+dat=data.frame(y,x1,x2)
+m1=lm(y~x1+x2,dat)
+m1
+## 
+## Call:
+## lm(formula = y ~ x1 + x2, data = dat)
+## 
+## Coefficients:
+## (Intercept)           x1           x2  
+##  -8.039e-15    2.000e+00    1.000e+00
+summary(m1)
+## Warning in summary.lm(m1): essentially perfect fit: summary may be unreliable
+## 
+## Call:
+## lm(formula = y ~ x1 + x2, data = dat)
+## 
+## Residuals:
+##        Min         1Q     Median         3Q        Max 
+## -1.229e-14 -5.870e-17  2.909e-16  7.206e-16  1.507e-15 
+## 
+## Coefficients:
+##               Estimate Std. Error    t value Pr(>|t|)    
+## (Intercept) -8.039e-15  2.322e-15 -3.463e+00  0.00115 ** 
+## x1           2.000e+00  1.004e-15  1.991e+15  < 2e-16 ***
+## x2           1.000e+00  2.976e-16  3.360e+15  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.922e-15 on 47 degrees of freedom
+## Multiple R-squared:      1,  Adjusted R-squared:      1 
+## F-statistic: 1.124e+31 on 2 and 47 DF,  p-value: < 2.2e-16
+predict(m1)
+##         1         2         3         4         5         6         7         8 
+##  7.726476  8.498442  9.545283  9.340590 10.887471  8.143632 11.756041  7.658687 
+##         9        10        11        12        13        14        15        16 
+##  8.538179  8.520185  8.567244  9.501465  9.820067  7.400834  9.407096  8.774894 
+##        17        18        19        20        21        22        23        24 
+##  9.194433  8.176168 10.190122  8.756397  9.520905 10.058001 11.449866  6.834045 
+##        25        26        27        28        29        30        31        32 
+##  8.414048 10.761051  7.140366  9.194395  8.294391  9.805767  9.820311  7.458458 
+##        33        34        35        36        37        38        39        40 
+##  9.580948 10.652683  9.028489  8.889347  7.076613  7.970347 10.278749 10.964060 
+##        41        42        43        44        45        46        47        48 
+##  8.924511  9.928700  7.097705  7.196671 12.209903  7.741069  8.696273  9.942406 
+##        49        50 
+##  7.457211  7.969935
+plot(y,x1)
+  #Correlation
+x1=rnorm(100,2,1)
+x2=rnorm(100,2,4)
+cor(x1,x2)
+## [1] -0.0840994
+cor.test(x1,x2)
+## 
+##  Pearson's product-moment correlation
+## 
+## data:  x1 and x2
+## t = -0.8355, df = 98, p-value = 0.4055
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  -0.2759590  0.1142052
+## sample estimates:
+##        cor 
+## -0.0840994
+cor.test(x1,x2,method="spearman")
+## 
+##  Spearman's rank correlation rho
+## 
+## data:  x1 and x2
+## S = 182520, p-value = 0.3454
+## alternative hypothesis: true rho is not equal to 0
+## sample estimates:
+##         rho 
+## -0.09522952
+cor.test(x1,x2,method="kendall")
+## 
+##  Kendall's rank correlation tau
+## 
+## data:  x1 and x2
+## z = -1.0304, p-value = 0.3028
+## alternative hypothesis: true tau is not equal to 0
+## sample estimates:
+##         tau 
+## -0.06989899
+#One way ANOVA
+x1=runif(50,2,3)
+y=2*x1+x1
+anova(lm(y~x1))
+## Warning in anova.lm(lm(y ~ x1)): ANOVA F-tests on an essentially perfect fit
+## are unreliable
+## Analysis of Variance Table
+## 
+## Response: y
+##           Df Sum Sq Mean Sq    F value    Pr(>F)    
+## x1         1 36.719  36.719 1.2329e+32 < 2.2e-16 ***
+## Residuals 48  0.000   0.000                         
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+#Two way Anova
+x1=runif(50,2,3)
+x2=rnorm(50,4,1)
+y=2*x1+x2
+dat=data.frame(y,x1,x2)
+anova(lm(y~x1+x2,dat))
+## Warning in anova.lm(lm(y ~ x1 + x2, dat)): ANOVA F-tests on an essentially
+## perfect fit are unreliable
+## Analysis of Variance Table
+## 
+## Response: y
+##           Df Sum Sq Mean Sq    F value    Pr(>F)    
+## x1         1 16.162  16.162 3.7701e+31 < 2.2e-16 ***
+## x2         1 57.899  57.899 1.3506e+32 < 2.2e-16 ***
+## Residuals 47  0.000   0.000                         
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+#Two way Anova with replication
+x1=runif(50,2,3)
+x2=rnorm(50,4,1)
+y=2*x1+x2
+dat=data.frame(y,x1,x2)
+anova(lm(y~x1*x2,dat))
+## Warning in anova.lm(lm(y ~ x1 * x2, dat)): ANOVA F-tests on an essentially
+## perfect fit are unreliable
+## Analysis of Variance Table
+## 
+## Response: y
+##           Df Sum Sq Mean Sq    F value Pr(>F)    
+## x1         1 10.844  10.844 7.7001e+29 <2e-16 ***
+## x2         1 37.825  37.825 2.6860e+30 <2e-16 ***
+## x1:x2      1  0.000   0.000 1.7720e-01 0.6758    
+## Residuals 46  0.000   0.000                      
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+#Time series
+Infla=ts(c(13.8,15.7,3.2,5.4,13.2,34.4,23.7,15.6,16.6),start= c(1970,1))
+plot(Infla)
+ 
+acf(Infla)
+ 
+pacf(Infla)
+ 
+library(tseries)
+## Registered S3 method overwritten by 'quantmod':
+##   method            from
+##   as.zoo.data.frame zoo
+adf.test(Infla)
+## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  Infla
+## Dickey-Fuller = -4.3187, Lag order = 2, p-value = 0.01214
+## alternative hypothesis: stationary
+adf.test(diff(Infla))
+## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  diff(Infla)
+## Dickey-Fuller = -1.8109, Lag order = 1, p-value = 0.6444
+## alternative hypothesis: stationary
+
+
+Test for the Assumptions of Linear Regression Using R
+Test for the Assumptions of Linear Regression Using R
+BEING A SHORT TRAINING PRESENTED AT OFFA R USERS GROUP MEETING ON 26TH MARCH, 2024 AT STATISTICAL LABORATORY, STATISTICS DEPARTMENT, THE FEDERAL POLYTECHNIC OFFA, NIGERIA BY UDOKANG, ANIETIE EDEM (OGANIZER, ORUG) CHIF LECTURER, STATISTICS DEPARTMENT, THE FEDERAL POLYTECHNIC OFFA, NIGERIA
+#Simple Linear Regression y=a_0+a_1 x+e Where y- the dependent variable x - independent variable a_0- constant or the intercept on - axis a_1- coefficient or slope e- random error
+#Multiple Linear Regression y=a_0+a_1 x_1+a_2 x_2+⋯+a_k x_k+e Where y- the dependent variable x - independent variable a_0- constant or the intercept on - axis a_1,a_2,a_3,…,a_k- coefficients e- random error
+#Assumptions i. There must be a linear relationship between the variables ii. The error term must be homoscedastic (Equal Variance) iii. There must not be autocorrelation in the error term iv. There is no existence of multicollinearity in the data *v. The residuals must be normally distributed
+In the multiple Linear Regression of
+y=a_0+a_1 x_1+a_2 x_2+⋯+a_k x_k+e
+Let the y be Gross Domestic Product represented by GDP and x_1 be Import represented by IMP and x_2 be Export represented by EXP.
+Therefore, yGDP=a_0+a_1 IMP+a_2 EXP+e
+This model will be used to illustrate the different tests that will be carried out.
+#1. Test for Linearity ##Scatter Diagram The plot of GDP against IMP, EXP and GVTREV will be done using Scatter Diagram to determine linearity.
+EXIMGDP=read.csv('EXIMGDP.csv',head=T)
+plot(EXIMGDP$EXP, EXIMGDP$GDP, xlab="EXP,IMP and GVTREV", ylab="GDP",main= "Plot of GDP Against EXP,IMP and GVTREV",col="red",pch=16,xlim=c(20,50),ylim=c(60,110)) 
+points(EXIMGDP$IMP, EXIMGDP$GDP,col="blue",pch=16)
+points(EXIMGDP$GVTREV, EXIMGDP$GDP,col="green",pch=16) 
+legend(20,110,legend=c('EXP', 'IMP', 'GVTREV'), pch=c(16,16,16),col=c('red', 'blue', 'green'))
+ 
+There is linear relationship as indicated by the scatter diagram between the response variable and the explanatory variables.
+Action: No action required. If any of explanatory variables did not show linearity, then it should be transformed using any of the appropriate method such as logarithm and differencing. #Estimation of the Tentative Model for other Tests
+head(EXIMGDP,20)    
+##    YEAR Time IMP EXP GDP GVTREV
+## 1  2000    1  23  20  60     28
+## 2  2001    2  22  22  63     33
+## 3  2002    3  20  23  64     32
+## 4  2003    4  24  25  65     34
+## 5  2004    5  20  26  68     35
+## 6  2005    6  21  28  69     32
+## 7  2006    7  30  29  70     33
+## 8  2007    8  33  30  75     34
+## 9  2008    9  40  32  78     35
+## 10 2009   10  33  33  82     28
+## 11 2010   11  40  34  89     34
+## 12 2011   12  44  36  90     45
+## 13 2012   13  44  37  91     50
+## 14 2013   14  45  38  92     49
+## 15 2014   15  46  39  93     46
+## 16 2015   16  47  42  96     47
+## 17 2016   17  48  43  98     48
+## 18 2017   18  49  44 100     49
+## 19 2018   19  38  45 101     50
+## 20 2019   20  49  46 102     50
+lm1=lm(GDP~IMP+EXP+GVTREV,data= EXIMGDP)
+lm1
+## 
+## Call:
+## lm(formula = GDP ~ IMP + EXP + GVTREV, data = EXIMGDP)
+## 
+## Coefficients:
+## (Intercept)          IMP          EXP       GVTREV  
+##    24.13308      0.27234      1.39374      0.04009
+summary(lm1)
+## 
+## Call:
+## lm(formula = GDP ~ IMP + EXP + GVTREV, data = EXIMGDP)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -4.0446 -1.3102  0.3726  1.1387  5.2232 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) 24.13308    2.62016   9.211 8.52e-08 ***
+## IMP          0.27234    0.11294   2.411   0.0283 *  
+## EXP          1.39374    0.17717   7.867 6.89e-07 ***
+## GVTREV       0.04009    0.12855   0.312   0.7592    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 2.244 on 16 degrees of freedom
+## Multiple R-squared:  0.9798, Adjusted R-squared:  0.976 
+## F-statistic: 258.3 on 3 and 16 DF,  p-value: 9.278e-14
+#The p-value of 9.278e-14 indicates the model is suitable to the data (the model has passed the goodness of fit test).
+This notwithstanding, the test for some important assumptions of regression model can further improve the model.
+#2. Homoscedasticity (Constant Variance) ##Goldfield-Quandit Test H_0: There is homoscedasticity (Constant variance) Vs H_1: There is heteroscedasticity (Variance are not constant)
+library(lmtest)
+## Loading required package: zoo
+## 
+## Attaching package: 'zoo'
+## The following objects are masked from 'package:base':
+## 
+##     as.Date, as.Date.numeric
+gqtest(lm1)
+## 
+##  Goldfeld-Quandt test
+## 
+## data:  lm1
+## GQ = 0.12049, df1 = 6, df2 = 6, p-value = 0.9895
+## alternative hypothesis: variance increases from segment 1 to 2
+#Since p-value = 0.9895 is not less than 0.05 level of significance, there is homoscedasticity. Action:Nil. If there is heteroscedasticity, the data needs to be transformed using an appropriate transformation technique such as logarithm and reciprocal.
+#3. Autocorrelation (The Error Terms are Independent)
+##Durbin-Watson Test H_0: There is no autocorrelation Vs H_1: There is autocorrelation
+library(lmtest)
+dwtest(lm1) 
+## 
+##  Durbin-Watson test
+## 
+## data:  lm1
+## DW = 1.316, p-value = 0.01142
+## alternative hypothesis: true autocorrelation is greater than 0
+#The DW = 1.316 and p-value = 0.01142<0.05, meaning that there is autocorrelation. Action: The original data should be transformed using autocorrelation of the residuals (random term-U) between U_t and U_(t-1).
+#4. No Multicollinearity (No Existence of High Correlation between the Explanatory Variables) ##Variance Inflation Factor (VIF) H_0: There is no multicollinearity Vs H_1: There is multicollinearity #Decision Rule: VIF = 1, there is no multicollinearity. 1<VIF<=5, there is moderate multicollinearity VIF>5, there is high correlation between a given explanatory variable and other explanatory variables, hence existence of multicollinearity
+library(car)
+## Loading required package: carData
+vif(lm1)
+##      IMP      EXP   GVTREV 
+## 5.692972 7.785403 4.282330
+#There is existence of multicollinearity in IMP and EXP at severe level. But GVTREV has a moderate existence of autocorrelation which may require any action. Action: Remove EXP with the highest VIF or find an appropriate way of combining the two of EXP and IMP.
+#5. Residuals must be Normally Distributed ##Q-Q Plot
+library(forecast)   
+## Registered S3 method overwritten by 'quantmod':
+##   method            from
+##   as.zoo.data.frame zoo
+resid<- resid(lm1)
+qqnorm(resid)
+ 
+#This is near normality even though the points are not in a straight line but are close it, except one point which normality can be considered by these observation.
+#Let this be sunjected to a test of hypothesis using Shapiro-Wilk Test.
+##Shapiro-Wilk Test.
+H_0: The residuals are normally distributed Vs H_1: The residuals are not normally distributed
+shapiro.test(residuals(lm1))
+## 
+##  Shapiro-Wilk normality test
+## 
+## data:  residuals(lm1)
+## W = 0.95848, p-value = 0.5139
+The Shapiro test statistic W = 0.95848, p-value = 0.5139>0.05, hence the residuals have a normal distribution.
+Action: No action. If the residuals are not normally distributed the original can be transformed or another model of non-linear form can be used.
+#This is end of today’s short training hosted by the Offa-R-Users-Group (ORUG) a place for learning and using R. I wish to you to be part of the training session either online or physical. If you are a guest, find time to register as a member to actualize your goal in using R. The ORUG (https://www.meetup.com/fedpofa-r-users-group/ ) is sponsored by R Consortium and AniKem_Consult. For any Enquiry Contact the Organizer (WhatsApp: +2349030912602, email: anietieeu@yahoo.com)
+#BY NEXT QUARTER WE SHALL CONSIDER ACTIONS TO BE TAKEN WHEN THE ASSUMPTIONS ARE VIOLATED.
+THANKS FOR BEING PART OF THIS SHORT TRAINING.
