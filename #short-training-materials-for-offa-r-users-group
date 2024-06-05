@@ -1,7 +1,7 @@
 INTRODUCTION TO PROBABILITY USING R
 BEING A SHORT TRAINING PRESENTED AT OFFA R USERS GROUP MEETING ON 13TH FEBRUARY, 2024 AT STATISTICAL LABORATORY, STATISTICS DEPARTMENT, THE FEDERAL POLYTECHNIC OFFA, NIGERIA BY UDOKANG, ANIETIE EDEM (OGANIZER, ORUG) CHIF LECTURER, STATISTICS DEPARTMENT,THE FEDERAL POLYTECHNIC OFFA, NIGERIA
 #Introduction This topic is carefully chosen because of the important of probability in Statistics, most especially when it has to do with inferential Statistics. We deal with probability in many fields of Statistics such as Econometrics, Time Series, Biostatistics, Medical Statistics, Sampling Theory, Inference and Business Statistics. Welcome on board as we discuss the elementary part of Statistics that has to do with the Concepts of Probability. Before then, let’s get ourselves familiar with R Software. #What is R? R is a free statistical software created by statisticians Ross Ihaka and Robert Gentleman and supported by R Core Team and the R Foundation for Statistical Computing. #Where can I Find R? Visit: https://cran.r-project.org/ Follow the instructions for free download and install in your system. Display of the R Console (A Tool to type command and see the result of the command)
-#What is Probability? Probability can be defined as a quantity from 0 to 1used to measure the likelihood or the chance of an event occurring. #Two Approaches of Probability *Classical Approach -This probability approach assumes equally likely outcomes based on prior knowledge.
+#What is Probability? Probability can be defined as a quantity from 0 to 1 used to measure the likelihood or the chance of an event occurring. #Two Approaches of Probability *Classical Approach -This probability approach assumes equally likely outcomes based on prior knowledge.
 *Relative Frequency – This approach is based on observed occurrences over a large number of trials. Formula P(A) = n(A)/n(S) Or P(A) = f/n Where P(A) = number of event A n(S) = number all possible events = sample space f = frequency of a sub group n = Total frequency of all the groups = sample size
 ##llustrative Examples (R-4.4.0) #Example 1 (Classical Approach) An unbiased coin has two sides Head (H) and Tail (T). This implies that each side has an equal chance of occurrence when toss or flip. What is the probability of having a head when the coin is tossed once?
 outcomes <- c("Head", "Tail")
@@ -903,7 +903,7 @@ library(car)
 vif(lm1)
 ##      IMP      EXP   GVTREV 
 ## 5.692972 7.785403 4.282330
-#There is existence of multicollinearity in IMP and EXP at severe level. But GVTREV has a moderate existence of autocorrelation which may require any action. Action: Remove EXP with the highest VIF or find an appropriate way of combining the two of EXP and IMP.
+#There is the existence of multicollinearity in IMP and EXP at severe level. But GVTREV has a moderate existence of autocorrelation which may require any action. Action: Remove EXP with the highest VIF or find an appropriate way of combining the two of EXP and IMP.
 #5. Residuals must be Normally Distributed ##Q-Q Plot
 library(forecast)   
 ## Registered S3 method overwritten by 'quantmod':
@@ -913,7 +913,7 @@ resid<- resid(lm1)
 qqnorm(resid)
  
 #This is near normality even though the points are not in a straight line but are close it, except one point which normality can be considered by these observation.
-#Let this be sunjected to a test of hypothesis using Shapiro-Wilk Test.
+#Let this be subjected to a test of hypothesis using Shapiro-Wilk Test.
 ##Shapiro-Wilk Test.
 H_0: The residuals are normally distributed Vs H_1: The residuals are not normally distributed
 shapiro.test(residuals(lm1))
@@ -924,7 +924,7 @@ shapiro.test(residuals(lm1))
 ## W = 0.95848, p-value = 0.5139
 The Shapiro test statistic W = 0.95848, p-value = 0.5139>0.05, hence the residuals have a normal distribution.
 Action: No action. If the residuals are not normally distributed the original can be transformed or another model of non-linear form can be used.
-#This is end of today’s short training hosted by the Offa-R-Users-Group (ORUG) a place for learning and using R. I wish to you to be part of the training session either online or physical. If you are a guest, find time to register as a member to actualize your goal in using R. The ORUG (https://www.meetup.com/fedpofa-r-users-group/ ) is sponsored by R Consortium and AniKem_Consult. For any Enquiry Contact the Organizer (WhatsApp: +2349030912602, email: anietieeu@yahoo.com)
+#This is the end of today’s short training hosted by the Offa-R-Users-Group (ORUG) a place for learning and using R. I wish to you to be part of the training session either online or physical. If you are a guest, find time to register as a member to actualize your goal in using R. The ORUG (https://www.meetup.com/fedpofa-r-users-group/ ) is sponsored by R Consortium and AniKem_Consult. For any Enquiry Contact the Organizer (WhatsApp: +2349030912602, email: anietieeu@yahoo.com)
 #BY NEXT QUARTER WE SHALL CONSIDER ACTIONS TO BE TAKEN WHEN THE ASSUMPTIONS ARE VIOLATED.
 THANKS FOR BEING PART OF THIS SHORT TRAINING.
 
