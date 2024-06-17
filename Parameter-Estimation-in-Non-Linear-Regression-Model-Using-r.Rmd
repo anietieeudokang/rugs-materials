@@ -1,0 +1,245 @@
+---
+title: "Parameter Estimation in Non-Linear Regression Model Using R"
+output: html_notebook
+---
+
+Being a Short Training Material Presented at the Offa-R-Users-Group (ORUG) on 30th May, 2024.
+By 
+Udokang, Anietie Edem
+Organizer
+
+#Introduction#
+The previous discussion on regression analysis in this group was based on linear relationship, where the parameters and explanatory variable(s) were both linear. Today we want to consider other situations whereby the parameters or explanatory or both, are not linear referred to as non-linear relationship which can as well be explained by a non-linear model.
+It should be noted that for the parameters of a non-linear regression model to be estimated, the said model can to be transformed to a linear model using various transformation methods suitable to the model. Therefore, non-linear models will be presented in terms of linearity in parameters and explanatory variables and use it to compute the parameters of the transformed model which will be used to get the estimate of the initial parameters. 
+#1. Polynomial Non-Linear Regression Model#
+This type of regression model can be described as non-linear regression model because its non-linearity in variables, though its parameters may be linear. The polynomial non-linear regression model may not require the model to be transformed to linear model but action should be taken on variables with the power greater than 1.There are two types of polynomial regression models which are polynomial in one variable and polynomial in k variables.
+##i. Polynomial in One Variable##
+Polynomial regression model with only one independent variables with different powers is polynomial regression model in one variable. 
+#The model:#
+#The 2nd polynomial (quadratic) regression model in one variable
+$y=a_{0}+a_{1}x+a_{2}x^{2}+e$
+
+#The 3rd polynomial (cubic) regression model in one variable
+$y=a_{0}+a_{1}x+a_{2}x^{2}+a_{3}x^{3}+e$
+
+#The 4th polynomial (quatic) regression model in one variable
+$y=a_{0}+a_{1}x+a_{2}x^{2}+a_{3}x^{3}+a_{4}x^{4}+e$
+
+#The nth polynomial regression model in one variable
+$y=a_{0}+a_{1}x+a_{2}x^{2}+a_{3}x^{3}+a_{4}x^{4}+\dots+a_{n}x^{n}+e$
+
+The estimation of the parameters of the nth polynomial regression model takes the process of least square estimation of the linear regression.
+The illustration will be done on quadratic and cubic polynomial regression which the same procedure will be followed to kth polynomial.
+
+
+```{r}
+#Illustrative Example
+#Quadratic (2nd) Polynomial Regression  	
+x<-c(25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40)
+y<-c(65,63,62,61,60,57,56,55,56,58,60,62,63,64,65,66)
+plot(x, y)
+```
+
+
+```{r}
+df <- data.frame(x, y)
+m1= lm(y ~ x+I(x^2))
+m1
+```
+
+
+```{r}
+summary(m1)
+```
+
+
+```{r}
+predict(m1)
+```
+
+#Plot of the actual values and the regression line
+```{r}
+library(ggplot2)
+ggplot(df, aes(x, y)) +geom_point() +geom_line(aes(x, predict(m1)),col="red") +
+ggtitle("Quadratic Polynomial Regression")
+```
+
+#Illustrative Example
+#Cubic (3rd) Polynomial Regression  	
+```{r}
+x<-c(6,9,12,16,22,28,33,40,47,51,55,60)
+y<-c(14,28,50,64,67,57,55,57,68,74,88,110)
+plot(x, y)
+```
+
+```{r}
+df <- data.frame(x, y)
+m2= lm(y ~ x+I(x^2)+ I(x^3))
+m2
+```
+
+```{r}
+summary(m2)
+```
+
+```{r}
+predict(m2)
+```
+
+```{r}
+library(ggplot2)
+ggplot(df, aes(x, y))+geom_point() +geom_line(aes(x, predict(m2)),col="blue") +ggtitle("Cubic Polynomial Regression")
+```
+
+##ii. Polynomial Regression Model in K Variables
+The polynomial regression with number of explanatory variables more than 0ne ( ) is said to Polynomial Regression Model in K Variables.
+#The polynomial regression model is
+
+#The 2nd polynomial (quadratic) regression model in two variables
+$y=a_{0}+a_{1}x+a_{2}z+a_{3}x^{2}+a_{4}z^{2}+e$
+
+#The 3rd polynomial (cubic) regression model in one variable
+$y=a_{0}+a_{1}x+a_{2}z+a_{3}x^{2}+a_{4}z^{2}+a_{5}x^{3}+a_{6}z^{3}+e$
+
+#The 4th polynomial (quatic) regression model in one variable
+$y=a_{0}+a_{1}x+a_{2}z+a_{3}x^{2}+a_{4}z^{2}+a_{5}x^{3}+a_{6}z^{3}+a_{7}x^{4}+a_{8}z^{4}+e$
+
+#The nth polynomial regression model in one variable
+$y=a_{0}+a_{1}x+a_{2}z+a_{3}x^{2}+a_{4}z^{2}+a_{5}x^{3}+a_{6}z^{3}+\dots+a_{n-1}x^{n-1}+a_{n}z^{n}+e$
+
+The estimation of the model parameters is done just like the linear in variable case, where least square method of estimation is used.
+We will consider the quadratic case and the idea can be applied to cubic.
+#Illustrative Example
+#Quadratic (2nd) Polynomial Regression  	
+
+
+```{r}
+x<-c(25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40)
+y<-c(65,63,62,61,60,57,56,55,56,58,60,62,63,64,65,66)
+z<-c(23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38)
+plot(x, y)
+```
+
+```{r}
+plot(z, y)
+```
+
+```{r}
+df <- data.frame(x, y,z)
+m3= lm(y ~ x+I(x^2)+ z+I(z^2))
+m3
+```
+
+```{r}
+summary(m3)
+```
+
+```{r}
+predict(m3)
+```
+
+#Plot of regression line with x 
+```{r}
+library(ggplot2)
+ggplot(df, aes(x, y)) +geom_point() +geom_line(aes(x, predict(m3)),col="red") +
+ggtitle("Quadratic Polynomial Regression")
+```
+
+#Plot regression line with z 
+```{r}
+#Plot regression line with z 
+ggplot(df, aes(z, y)) +geom_point() +geom_line(aes(z, predict(m3)),col="red") +
+ggtitle("Quadratic Polynomial Regression")
+```
+
+##2. Exponential Non-Linear Regression Model with Natural Logarithm Transformation
+This type of non-linear model can be transformed with with logarithm to base e to make it a linear model. 
+An example of such model is  $y=ae^{bx}$ which can be transformed to linear model taking the natural log of both sides of the equation.
+$log_{e}y=log_{e}a+bx$
+#let
+$log_{e}y=y^*$ and $log_{e}a=b_{0}$
+#Therefore, the estimate of the response variable from the new model gives the regression line equation as
+$y^*=b_{0}+bx$
+from $log_{e}a=b_{0}$
+Therefore,
+$a=e^{b_{0}}$
+Then we can now estimate $y=ae^{bx}$
+```{r}
+#Illustrative Example
+x <- c(2,4,6,8,10,12,14,16,18)
+y <- c(5,7,8,9,10,12,14,16,20) 
+df <- data.frame(x, y)
+plot(x, y)
+```
+
+```{r}
+m4= lm(log(y) ~ x)
+m4
+```
+
+```{r}
+b0= 1.38460 #The constant term of the transformed regression model (b0 = loga )
+a=exp(b0) #The constant term of exponential regression model
+a
+```
+
+```{r}
+b= 0.09282 #The coefficient of the transformed model = the coefficient of the exponential model 
+predicty=a*exp(b*x) #To predict the exponential regression model
+predicty
+```
+
+#Plot of regression line with actual values
+```{r}
+ggplot(df, aes(x, y)) +geom_point() +geom_line(aes(x, predicty),col="red") +
+ggtitle("Exponential Regression")
+```
+#This an example of exponential growth where b>1 (if 0<b<1 it is exponential decay)
+#Note that b must not be –ve. Meaning that it must not be less than zero.
+#You can also use y = abx
+$y=ab^{x}$
+
+##3. Power Non-Linear Regression Model with Logarithm to Base 10 Transformation
+The non-linear relationship of the type given below is an example of a non-linear regression model that requires logarithm to base 10 transformation to be a linear model.
+
+$y=ax^{b}$
+$logy=loga+blogx$
+#Let
+$y*=logy$
+$x*=logx$
+$b_{0}=loga$
+Therefore, the estimate of the response variable from the new model gives the regression line equation as
+$y^*=b_{0}+bx^*$
+$a=antilog{b_{0}}$
+#Illustrative Example
+
+
+```{r}
+x=1:20
+y=c(2, 9, 6, 8, 7, 21, 16, 20, 24, 38, 34, 39, 50, 51, 57, 53, 71, 90, 98, 116) 
+df <- data.frame(x, y)
+plot(x, y)
+```
+
+```{r}
+m5 <- lm(log(y)~ log(x))
+m5
+```
+
+```{r}
+b0= 0.562 #The constant term of the transformed regression model (b0 = loga )
+a=exp(b0) #The constant term of power regression model
+a
+```
+```{r}
+b= 1.281 #The coefficient of the transformed model = the coefficient of the power regression model 
+predicty=a*x^b #To predict the exponential regression model
+predicty
+```
+
+#Plot of regression line with actual values
+```{r}
+library(ggplot2)
+ggplot(df, aes(x, y)) +geom_point() +geom_line(aes(x, predicty),col="red") +
+ggtitle("Power Regression")
+```
