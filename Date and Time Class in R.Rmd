@@ -3,7 +3,7 @@ title: "Date and Time Classes in R: "
 output: html_notebook
 ---
 
-#Being a Short Training Material used at Offa R Users Group Meeting on 27th March, 2025 at Statistical Laboratory, Statistics Department, The Federal Polytechnic Offa, Kwara State, Nigeria
+#Being a Short Training Material for Offa R Users Group Meeting on 27th March, 2025 at Statistical Laboratory, Statistics Department, The Federal Polytechnic Offa, Kwara State, Nigeria
 
 #Prepared and Presented
 #By
