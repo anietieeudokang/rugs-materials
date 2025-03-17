@@ -1,0 +1,99 @@
+---
+title: "Date and Time in R"
+output: html_notebook
+---
+Being a Short Training Material used at Offa R Users Group Meeting on 29th July, 2024 at Statistical Laboratory, Statistics Department, The Federal Polytechnic Offa, Kwara State, Nigeria
+
+Prepared and Presented
+ By
+Udokang, Anietie Edem (Oganizer, Orug)
+Chief Lecturer, Statistics Department, The Federal Polytechnic Offa, Kwara State, Nigeria
+
+###Introduction
+Many data sets contains dates and day time which are not in form of a more familiar string or numerical data. This presentation shall be in two sections to address time in R and dates/time classes in R.
+###Section 1
+##Time in R
+#What is the Current Time?
+We can use R program to check current time by using Sys.time function.
+```{r}
+(now_ct <- Sys.time ())
+```
+#Time zones in R
+In working with time and dates we will make use of R package lubridate.
+```{r}
+library(lubridate)
+time_zones <- OlsonNames()
+print(time_zones)
+```
+#Displays different time zones in R that should be used when converting from one time zone to another
+#Change time zone
+```{r}
+time_Nigeria <- ymd_hms("2024-07-29 02:33:47", tz = "Africa/Lagos")
+time_ny <- with_tz(time_Nigeria, tzone = "America/New_York")
+time_ny
+```
+###Section 2
+##DATES/TIME CLASSES IN R
+The three classes are Date, POSITct and POSITlt’
+##Date 
+The function as.Date converts date-time objects to the Date class, which only stores the date (year, month, day) without the time. It’s useful when you only need the date part of a date-time object.
+```{r}
+date <- as.Date("2024-07-29")
+print(date)
+```
+##Date with Day, Month, Year
+```{r}
+date <- as.Date("2021-01-25")
+formatted_date <- format(date, format="%m/%d/%y")
+print(formatted_date)  
+```
+##Format Date as Weekday:
+```{r}
+date <- as.Date("2021-01-25")
+formatted_date <- format(date, format="%A")
+print(formatted_date) 
+```
+##Format Date as Month:
+```{r}
+date <- as.Date("2021-01-25")
+formatted_date <- format(date, format="%B")
+print(formatted_date)
+```
+###POSITct
+This function as.POSTct converts date-time objects to the POSIXct class, which stores date-time values as the number of seconds since January 1, 1970 (the Unix epoch). It’s useful for efficient storage and computation.
+```{r}
+datetime <- as.POSIXct("2024-07-29 03:17:16")
+print(datetime)
+```
+##Date and Time:
+```{r}
+datetime <- as.POSIXct("2021-01-25 14:30:00")
+formatted_datetime <- format(datetime, format="%Y-%m-%d %H:%M:%S")
+print(formatted_datetime)  
+```
+##Custom Date and Time Format:
+```{r}
+datetime <- as.POSIXct("2021-01-25 14:30:00")
+formatted_datetime <- format(datetime, format="%d-%b-%Y %I:%M %p")
+print(formatted_datetime)  
+```
+##POSITlt
+This function as.POSITlt converts date-time objects to the POSIXlt class, which stores date-time values as a list with components for seconds, minutes, hours, days, months, years, etc. It’s more detailed but less efficient for storage compared to POSIXct.
+```{r}
+datetime <- as.POSIXlt("2024-07-29 03:17:16")
+print(datetime)
+```
+##Date and Time:
+```{r}
+datetime <- as.POSIXlt("2021-01-25 14:30:00")
+formatted_datetime <- format(datetime, format="%Y-%m-%d %H:%M:%S")
+print(formatted_datetime)  
+```
+##Custom Date and Time Format:
+```{r}
+datetime <- as.POSIXlt("2021-01-25 14:30:00")
+formatted_datetime <- format(datetime, format="%d-%b-%Y %I:%M %p")
+print(formatted_datetime)  
+```
+Thank you for spending your time with us.
+Hope to see you in the next meeting.
