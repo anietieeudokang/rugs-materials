@@ -1,0 +1,70 @@
+---
+title: "Volatility Models in R"
+output: html_notebook
+---
+##Being a Short Training Material used at Offa R Users Group Meeting on 29th August, 2024 at Statistical Laboratory, Statistics Department, The Federal Polytechnic Offa, Kwara State, Nigeria
+
+Prepared and Presented
+ By
+#Udokang, Anietie Edem (Oganizer, Orug)
+Chief Lecturer, Statistics Department, The Federal Polytechnic Offa, Kwara State, Nigeria
+
+##Introduction
+The topic we are handling today “Volatility Models in R” was at the initial stage applicable to financial time series because of its volatility, but now has been extended to other series with such characteristics. 
+The volatility estimates are done through the use of a class of models of volatility such as Generalised Autoregressive Conditional Heteroscedasticity (GARCH) in modeling, estimation and prediction of volatility in financial time series.
+##What is Volatility?
+Volatility is the tendency for outcome to change unexpectedly over a period of time which can also be described as a measure of difference between the current outcome and the past average outcome of of event based on time. A typical example such event is price. 
+In other words, volatility can be said to be the standard deviation (square root of the variance) of returns used in measuring the distribution of returns from the mean value. 
+Volatility is high if there are large-scale price fluctuations and volatility is low if price fluctuations move steadily. 
+##Generalised Autoregressive Conditional Heteroscedasticity (GARCH) Model
+GARCH(1,1)
+#the two packages required
+```{r}
+require("fGarch")
+require("tseries")
+```
+#Data "tcmd" in R package "tseries"
+```{r}
+data(tcm)
+```
+#time plot
+```{r}
+plot(tcm1y,xlab="Month/Year",ylab="Yield on treasury securities")
+```
+#Let the yield represent returns
+#test for stationarity
+```{r}
+adf.test(tcm1y)
+```
+#tcm1y is not stationary
+
+#difference tcm1y for stationarity
+```{r}
+diff.tcm1y=diff(tcm1y)
+adf.test(diff.tcm1y)
+```
+#there is stationarity in diff.tcm1y
+```{r}
+plot(diff.tcm1y,xlab="Month/Year",ylab="Yield on treasury securities")
+```
+#stationarity is exhibited with outliers but the outliers will be ignored for now
+
+#estimation of the model GARCH(1,1) parameters 
+```{r}
+model1= garchFit(~garch(1,1), data = diff.tcm1y)
+```
+```{r}
+summary(model1)
+```
+
+#estimation of the model GARCH(2,1) parameters 
+```{r}
+model2= garchFit(~garch(2,1), data = diff.tcm1y)
+```
+```{r}
+summary(model2)
+```
+#we shall continue with goodness of fit test of the model and forecasting in susequent meetings
+
+*TANK YOU FOR BEING PART OF THIS TRAINING
+*HOPE TO SEE YOU NEXT TIME
