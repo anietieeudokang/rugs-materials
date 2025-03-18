@@ -1,0 +1,50 @@
+---
+title: "CREATING AND USING R NOTEBOOK"
+output: html_notebook
+---
+#Being a Short Training Material used at Offa R Users Group Meeting on 31st October, 2024 at Statistical Laboratory, Statistics Department, The Federal Polytechnic Offa, Kwara State, Nigeria
+Prepared and Presented
+ By
+Udokang, Anietie Edem (Oganizer, Orug, IRUG and KWESRUG)
+Chief Lecturer, Statistics Department, The Federal Polytechnic Offa, Kwara State, Nigeria
+
+#Introduction
+This is a demonstration class which participant will see practically how R Notebookcan be created and use.
+#What is R Notebook?
+R Notebook is an interactive document in RStudio IDE which can be created and edited using RStudio.
+#What can I do in R Notebook?
+	You can write R code and execute in code chunks
+	Images, tables and other visualizations can be inserted in R notebook
+	The notebook can be save and as an HTML or R Notebook file (.Rmd)
+#How can R Notebook be created?
+R Notebook can be created using the following steps.
+Step I: Open RStudio
+Step II: Click on “file” at the top left corner
+Step III: From the dropdown in Step II click “New File”
+Step IV: Click on R Notebook
+Step V: Choose a template or start from a blank notebook
+Step VI: Click on the save symbol, give name to your R Notebook and save it RMD file
+#What are the components of an R Notebook?
+Some of the components of R Notebook are
+i.	Cell-The notebook is divided into cells that can contain R code and Markdown text
+ii.	Code cells-These are for R code that can be executed or run in the notebook
+iii.	Markdown cells- For text formatted using Markdown syntax
+iv.	Output cells-These are spaces for the output R code
+#How do we use R Notebook?
+We use R Notebook to perform the following operations.
+i.	Run code cells-After writing the code in th code cell, then click on the “Run” button. Alternatively press Shift+Enter to run the code.
+ii.	Display the R code output-The output from the code will be displayed in a space below the R code
+iii.	Add new cells- This can be done by clicking the “Insert” button. Alternatively press Ctrl+Shift+M for Windows or Command+Shift+M for Mac
+iv.	Save and share documents by exporting it as an HTML file or R Notebook file (.Rmd)
+#Illustrative Example
+
+```{r}
+library(parallel)
+library(pracma)
+library(rugarch)
+data(dji30ret)
+plot(dji30ret$AA)
+```
+#THANK YOU FOR PARTICIPATING
+#HOPE TO SEE YOU IN THE NEXT MEETING
+
