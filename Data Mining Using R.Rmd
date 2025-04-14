@@ -1,0 +1,159 @@
+---
+title: "Data Mining in R"
+output:
+  html_document:
+    df_print: paged
+---
+##Being a Short Training Material used at Offa R Users Group Meeting on 27th February, 2025 at Statistical Laboratory, Statistics Department, The Federal Polytechnic Offa, Nigeria
+
+#Prepared and Presented
+ By
+#Udokang, Anietie Edem (Oganizer, Orug)
+Chief Lecturer, Statistics Department, The Federal Polytechnic Offa, Kwara State, Nigeria
+
+#Data Mining
+It is the process of extracting and discovering patterns in large data sets involving methods at the intersection of machine learning, statistics, and database systems.
+The main techniques for data mining include classification and prediction, clustering, outlier detection, association rules, sequence analysis, time series analysis and text mining, and also some new techniques such as social network analysis and sentiment analysis.
+#Data exploration
+This is the first step of data analysis used to explore and visualize data to uncover insights from the start or identify areas or patterns to dig into more.
+#Data visualization
+It is the graphical representation of information and data. By using visual elements like charts, graphs, and maps, data visualization tools provide an accessible way to see and understand trends, outliers, and patterns in data.
+#R 
+R is a free software environment for statistical computing and graphics. It provides a wide variety of statistical and graphical techniques. R can be easily extended with 7324 packages available on CRAN3 (as of October 20, 2015). In addition, there are many packages
+http://www.crisp-dm.org/
+http://www.r-project.org/
+http://cran.r-project.org/
+
+#RStudio
+It is an integrated development environment (IDE) for R and can run on various operating systems like Windows, Mac OS X and Linux. It is a very useful and powerful tool for R programming, and therefore, readers are suggested to use RStudio when learning from this book or doing their projects, although all the provided code can run without it. What you normally need is RStudio Desktop open source edition, which is free of charge.
+When RStudio is launched the RStudio interface will be displayed.
+#There are four panels:
+•	Source panel (top left), which shows your R source code. If you cannot see the source panel, you can find it by clicking menu “File”, “New File” and then “R Script”. You can run a line or a selection of R code by clicking the “Run” bottom on top of source panel, or pressing “Ctrl + Enter”.
+•	Console panel (bottom left), which shows outputs and system messages displayed in a normal R console;
+•	Environment/History panel (top right), whose tabs show respectively all objects and function loaded in R and a history of submitted R code.
+•	Files/Plots/Packages Panel (Bottom Right)
+#Data Exploration with R
+
+```{r}
+student<-c(weight=c(33,40,50,37,60),hieght=c(5,6,4,5,3),age=c(30,24,18,26,32))
+students <- data.frame(weight = c(33, 40, 50, 37, 60), height = c(5, 6, 4, 5, 3), age = c(30, 24, 18, 26, 32))
+```
+#There are three attributes in the data frame (df) named “student” and “students”. These are weight, height and age.
+```{r}
+dim(student)
+```
+Null b/c df is not in rows and columns 
+```{r}
+attributes(student)
+```
+The data frame "students" are in rows and columns
+```{r}
+dim(students)
+```
+5 rows and 3 columns
+```{r}
+attributes (student)
+```
+```{r}
+attributes (students)
+```
+```{r}
+students[1:3,]#first three rows(row1 to row3)
+```
+
+```{r}
+head(students)#first 6 rows by default
+```
+```{r}
+tail(students)#last 6 rows by default
+```
+```{r}
+students[2:3,]#first three rows(row2 to row3)
+```
+```{r}
+students$weight #first column title
+```
+```{r}
+students[2:3,1]#row 2 and 3, column 1
+```
+```{r}
+students$weight[1:5]#row1 to 5 of weight 
+```
+```{r}
+students$weight[1:3]#row1 to 3 of weight 
+```
+```{r}
+summary (students)#output some descriptive statistics
+```
+```{r}
+quantile (students$weight)
+```
+```{r}
+mean (students$weight)
+```
+```{r}
+var(students$weight)
+```
+```{r}
+sd(students$weight)
+```
+#Data Visualization 
+```{r}
+hist(students$weight)
+```
+```{r}
+plot(students$weight)
+```
+```{r}
+plot(density(students$weight))
+```
+```{r}
+table(students$weight)
+```
+```{r}
+pie(table (students$weight))
+```
+```{r}
+boxplot(students$weight)
+```
+#Regression Analysis 
+```{r}
+m1=lm(students$weight~students$age)#simple linear regression
+m1
+```
+
+```{r}
+summary(m1)
+```
+```{r}
+m2=lm(students$weight~students$age+students$height)#multiple linear regression
+m2
+```
+```{r}
+m2=lm(students$weight~students$age+students$height)#multiple linear regression
+m2
+```
+```{r}
+summary(m2)
+```
+```{r}
+print(m2)
+```
+```{r}
+resid(m2)
+```
+```{r}
+plot (resid(m2))#for autocorrelation 
+```
+```{r}
+library(lmtest)
+gqtest(m1)#test homoscedasticity (constant variance)
+```
+#Correlation Analysis
+```{r}
+cor(students)
+```
+```{r}
+cor(students$weight, students$age)
+```
+Thank You for Participating
