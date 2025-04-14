@@ -1,6 +1,8 @@
 ---
 title: "Date and Time in R"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
 Being a Short Training Material used at Offa R Users Group Meeting on 29th July, 2024 at Statistical Laboratory, Statistics Department, The Federal Polytechnic Offa, Kwara State, Nigeria
 
