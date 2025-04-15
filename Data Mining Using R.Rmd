@@ -4,7 +4,7 @@ output:
   html_document:
     df_print: paged
 ---
-##Being a Short Training Material used at Offa R Users Group Meeting on 27th February, 2025 at Statistical Laboratory, Statistics Department, The Federal Polytechnic Offa, Nigeria
+Being a Short Training Material used at Offa R Users Group Meeting on 27th February, 2025 at Statistical Laboratory, Statistics Department, The Federal Polytechnic Offa, Nigeria
 
 #Prepared and Presented
  By
