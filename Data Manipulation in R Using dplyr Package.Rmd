@@ -1,0 +1,180 @@
+---
+title: "DATA MANIPULATION IN R USING dplyr Package"
+---
+BEING A SHORT TRAINING MATERIAL USED AT OFFA R USERS GROUP MEETING ON 27TH MAY, 2025 AT STATISTICS LABORATORY,STATISTICS DEPARTMENT, THE FEDERAL POLYTECHNIC OFFA, KWARA STATE, NIGERIA
+
+#Preamble
+The dplyr ("d" for data and "plyr" from the word "player".) is a package that is widely used in data science and analytics because of its simplicity, flexibility, and performance. The dplyr R package is a grammar-based data manipulation package that was developed by Hadley Wickham and is part of the tidyverse suite of packages.
+Some of the functions (verbs) in dplyr are listed below.
+i.	filter(): Select rows based on conditions
+ii.	arrange(): Sort rows in ascending or descending order
+iii.	select(): Select columns by name or index
+iv.	rename(): Rename columns
+v.	mutate(): Add new columns or modify existing ones
+vi.	transmute(): Create new columns and drop existing ones
+vii.	summarise(): Calculate summary statistics
+viii.	distinct(): Return unique rows
+ix.	count(): Count the number of rows in a table
+x.	tally(): Calculate the sum of a column
+xi.	pull(): Extract a column as a vector
+
+The dataset “mtcars” which is a built-in dataset in R will be used in illustrating the functions i to v and vii.
+
+#The Data set mtcars
+The dataset “mtcars” is derived from Motor Trend and Cars  is made up of types of cars (rows) and their components (columns). The rows are made up of 32 types of cars and the columns are
+•	mpg: Miles per gallon (fuel efficiency)
+•	cyl: Number of cylinders in the engine
+•	disp: Displacement (in cubic inches)
+•	hp: Horsepower
+•	drat: Rear axle ratio
+•	wt: Weight (in 1000 pounds)
+•	qsec: Quarter mile time (in seconds)
+•	vs: Transmission type (0 = automatic, 1 = manual)
+•	am: Transmission type (0 = automatic, 1 = manual)
+•	gear: Number of forward gears
+•	carb: Number of carburetors
+
+```{r}
+#install.packages(“dplyr”)#skip if already installed by removing the first hash tag.
+library(dplyr)
+data(mtcars)
+View(mtcars)
+```
+##1. filter()
+```{r}
+mtcars%>%
+filter(hp<92)#motors with less than 92 hp
+```
+```{r}
+mtcars%>%
+filter(hp==150)#motors with 150 hp
+```
+```{r}
+mtcars%>%
+filter(hp>150)#motors with greater than150 hp
+```
+```{r}
+mtcars%>%
+filter(cyl==8,hp>180)#motors with 8 cylinders and greater than150 hp
+```
+##2. arrange()
+
+```{r}
+mtcars%>%
+arrange(wt)# arrange types of motors by weight in ascending order by default
+```
+
+```{r}
+mtcars%>%
+arrange(desc(wt))# arrange types of motors by weight in descending order by default
+```
+
+```{r}
+mtcars%>%
+arrange(wt)%>%
+head()#arrange the weight and display the first six rows by default
+```
+
+```{r}
+mtcars%>%
+arrange(wt)%>%
+head(8)#arrange the weight with the first 8 row
+```
+
+##3. select()
+```{r}
+mtcars%>%
+select(wt)%>%
+head(5)
+```
+
+```{r}
+mtcars %>% 
+select(mpg, cyl, gear) %>% 
+head(5)
+```
+
+```{r}
+mtcars %>% 
+select(-mpg, -cyl, -gear) %>% 
+head(3)
+```
+
+##4. rename()
+
+```{r}
+data(mtcars)#refresh the data without the previous manipulations
+mtcars %>% 
+rename(
+MPGallon = mpg,
+Weight = wt,
+HorsePower = hp)
+```
+
+```{r}
+mtcars %>% 
+rename_with(toupper) %>% #changes the column title to upper case
+head(3)
+```
+
+```{r}
+#to rename the row titles
+rownames(mtcars)[rownames(mtcars) == "Mazda RX4"] <- "MZ"
+head(mtcars)
+rownames(mtcars)[rownames(mtcars) == "Mazda RX4"] <- "MZ"
+rownames(mtcars)[rownames(mtcars) == "Mazda RX4 Wag"] <- "MZ2"
+head(mtcars)
+```
+##5. mutate()
+
+```{r}
+data(mtcars)#to remove the changes in 4 and return to original data
+mtcars <- mtcars %>% 
+mutate(mpg_to_kpl = mpg * 0.425144, hp_to_kw = hp * 0.7457)#create 2 columns mpg_to_kpl and hp_to_kw
+head(mtcars)
+```
+
+```{r}
+#Using “ifelse” function
+data(mtcars)
+mtcars %>% 
+mutate(Fuel_Efficiency = ifelse(mpg > 20, "Good", "Poor")) %>% 
+head(10)
+```
+
+```{r}
+#Using “case_when” function
+data(mtcars)
+mtcars %>% 
+mutate(Fuel_Efficiency = case_when(mpg > 24 ~ "Excellent", mpg > 20 ~ "Good", TRUE ~ "Poor")) %>% 
+ head(10)
+```
+##6. summarise()
+
+```{r}
+data(mtcars)
+mtcars %>% 
+summarise(avg_wt=mean(wt),sd_wt=sd(wt),count=n())
+```
+#7. Applying dplyr Functions together by using the Pipe Operator (%>%)
+
+```{r}
+data(mtcars)
+mtcars %>% 
+filter(cyl>6)%>%
+select(cyl, mpg,gear)%>%
+arrange(desc(cyl))
+```
+#Exercise
+Use the “iris” dataset and carry out the following operations.
+i.	Select Sepal.Length greater than 4.9
+ii.	Filter Petal.Width = 0.2
+iii.	Arrange in ascending order
+iv.	Rename “Sepal.Length” as “SL” and “Species” as “Butterfly.Species”
+v.	Find the average of Petal.Length
+vi.	Use the pipe operator to filter Petal.Width greater than 1.4, select Petal.Width, Sepal.Length and Species.
+
+#THANK FOR BEING PART OF TODAY’S MEETING/TRAINING
+
+#JOIN US ONLINE ON JUNE 30, 2025 AS WE DISCUSS ON RSTUDIO ESSENTIALS
+
