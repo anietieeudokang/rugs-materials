@@ -1,0 +1,93 @@
+---
+title: "RStudio Essentials"
+output: html_notebook
+---
+
+#Being a Short Training Material used in Hybrid event at Offa R Users Group (ORUG) Meeting on 30th June, 2025 at Statistical Laboratory, Statistics Department, The Federal Polytechnic Offa, Kwara State, Nigeria
+
+
+#Prepared and Presented By 
+#Sodiq Ridwan
+#Statistician and Data Scientist
+
+#INTRODUCTION TO RSTUDIO
+RStudio is a powerful Integrated Development Environment (IDE) which is built specifically for use with R programming language. It is free, open-source and user-friendly. Although R itself can be used through its basic R GUI (Graphical User Interface) which is installed by default but RStudio enhances the experience of the users by providing a modern, organized, as well as more efficient environment for coding, data analysis and report writing.
+
+#SOME REASONS FOR USING RSTUDIO INSTEAD OF R GUI
+
+```{r}
+library(knitr)
+table<-data.frame(Feature=c("Script Editor","Project Management", "Plots","Data Viewer","Reporting","Debugging","Appearance and Usability"),R_GUI=c("Basic and limited","Not available","Open in new windows","Basics","Not supported","Mannual","Outdated and plain"),RStudio=c("Full featured script editor with syntax highlighting and code folding","Built in support for R Projects and reproducibility","Appears in a dedicated pane, easier to manage","Spreadsheet-style viewer with filters","Supports RMarkdown, knitting to PDF/HTML/Word","Built-in debugging tools and console tracking","Modern, customizable,and user-friendly interface"))
+kable(table,caption = "SOME REASONS FOR USING RSTUDIO INSTEAD OF R GUI")
+```
+#RSTUDIO INTERFACE
+1 – Source Editor: This is where you write, edit, and save your R script
+2 – Environment: This displays variables in memory and previously executed commands
+3 – Console: This is where code is executed and outputs are displayed
+4 – Files/Plots/Packages/Help/Viewer/Presentation: This lets you navigate folders, view plots, manage packages, and access documentation. 
+#UNDERSTANDING THE TOP MENU BAR IN RSTUDIO
+The top menu bar in RStudio provides access to a variety of essential tools that help you write code, manage projects, run sessions, customize your view, and troubleshoot. Each menu item contains grouped functions designed to streamline specific tasks. 
+#Here is the breakdown of some of the most useful ones:
+#File Menu
+The File menu is where you manage your scripts, projects, and documents. Here are some options you will find in File Menu and a brief description of their uses:
+New File – Create a new R Script, RMarkdown, or Notebook.
+Open File – Open and existing .R or .Rmd file.
+Save/Save As – Save your current script.
+New Project – Start a new RStudio project (very useful for organizing work).
+#Edit Menu
+The Edit menu helps you manipulate code in the script editor. Here are some options you will find in Edit Menu and a brief description of their uses:
+Undo/Redo – Undo or redo your action.
+Cut/Copy/Paste – Standard test manipulation.
+Find/Replace - Search or replace words within a script.
+ 
+#Session Menu
+The Session menu is essential for managing your R session such as clearing memory, restarting R, or changing your working directory. Here are some options you will find in Session Menu and a brief description of their uses:
+Restart R – Clears all memory and restarts R (great for resetting your session).
+Terminate R – Stops the current session.
+Set Working Directory – Choose or change the default file folder.
+Clear Workspace – Removes all objects from memory.
+#Help Menu
+Provides built-in documentation and access to learning resources. Here are some options you will find in Help Menu and a brief description of their uses:
+R Help – Opens the help viewer.
+Keyboard Shortcuts Help – View or print all shortcut keys
+Cheat Sheets – Download official Posit (RStudio) cheat sheets
+About RStudio – Version and license information
+#CREATING AND RUNNING FIRST SCRIPT IN RSTUDIO
+Go to File → New File → R Script
+In the new script window, type this code:
+# My first R code in RStudio
+
+```{r}
+name <- "RStudio Essentials"
+print(name)
+```
+Place your cursor on any line and press Ctrl + Enter (or Cmd + Enter on Mac).
+Output: You will see the result ([1] "RStudio Essentials") in the Console pane.
+#SAVE THE SCRIPT
+Click File → Save As
+Save as “demo_script.R” to your working folder
+#CREATING A SIMPLE DATA FRAME
+
+```{r}
+students <- data.frame(
+  Name = c("John", "Ada", "Ben"),
+  Score = c(85, 92, 78),
+  Age = c(20, 21, 22)
+)
+View(students)# Opens a spreadsheet-like viewer
+kable(students) #to display the output below
+```
+#Observation:
+The students data frame appears in the Environment tab.
+View() opens it in a spreadsheet style in a new tab.
+#PERFORM A SUMMARY AND PLOT
+```{r}
+summary(students)    # Summary statistics
+hist(students$Score) # Histogram in Plots pane
+```
+
+Output:
+A quick summary of numeric columns.
+A histogram appears in the Plots pane.
+
+
