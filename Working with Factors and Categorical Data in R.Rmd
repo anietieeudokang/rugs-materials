@@ -1,0 +1,160 @@
+---
+title: "WORKING WITH FACTORS AND CATEGORICAL DATA IN R"
+output: html_notebook
+---
+
+#Being a Short Training Material used in online event at Offa R Users Group (ORUG) Meeting on 30th September, 2025 
+
+
+#Prepared and Presented By 
+#Sodiq Ridwan
+#Statistician and Data Scientist
+
+#OUTLINE:
+1. WHAT IS CATEGORICAL DATA?
+2. WHAT IS A FACTOR IN R?
+3. HOW TO CREATE FACTORS, REORDER AND RENAME LEVELS
+4. WHY UNDERSTANDING CATEGORICAL DATA AND FACTORS IS IMPORTANT?
+5. IMPLICATIONS OF NOT UNDERSTANDING OR DECLARING FACTORS
+6. AREAS WHERE FACTORS ARE USEFUL
+7. KEY TAKEWAYS
+#1. WHAT IS CATEGORICAL DATA?
+Categorical data refers to data that represents groups, categories, or labels.
+#Examples in real life:
+a)	Gender: Male, Female
+b)	Blood Type: A, B, AB, O
+c)	Education Level: Primary, Secondary, Tertiary
+d)	Grades: A, B, C, D
+#Categorical data can be:
+a) Nominal – categories with no natural order (e.g., Male/Female, Blood type)
+b) Ordinal – categories with a natural order (e.g., Low, Medium, High or Grades A > B > C).
+
+#2. WHAT IS A FACTOR IN R?
+a)	A factor in R is a data structure used to represent categorical data.
+```{r}
+blood_group <- factor(c("A", "O", "B", "A","AB","O","A","AB"))
+blood_group
+```
+Here:
+The data points are (“A”, “O”, “B”, “A”,“AB”,“O”,“A”,“AB”))
+The levels (categories) are “A”, “B”, “AB” and “O”.
+
+#3. HOW TO CREATE FACTORS, REORDER AND RENAME LEVELS
+#a) How to create factors
+```{r}
+size <- factor(c("medium", "small","small","small","large", "medium", "small"))
+summary(size)
+```
+#b) How to check levels
+```{r}
+levels(size)
+```
+#c) How to Reorder Levels
+```{r}
+size <- factor(size,
+               levels = c("small", "medium", "large"),
+               ordered = TRUE)
+levels(size)
+```
+```{r}
+summary(size)
+```
+#d) Rename levels
+```{r}
+levels(size)<-c("size 38","size 42","size 46")
+size
+```
+```{r}
+summary(size)
+```
+#4. WHY UNDERSTANDING CATEGORICAL DATA AND FACTORS IS IMPORTANT?
+#General importance:
+a)	Many real-world datasets contain categorical variables (gender, region, product type).
+b)	Statistical methods treat categories differently from numeric variables.
+In R context:
+a)	R uses factors in modeling (e.g., regression, ANOVA).
+b)	Summaries and plots rely on correctly defined factors.
+c)	Without factors, categorical data may be misinterpreted as characters (strings) or numeric codes, leading to wrong analysis results.
+
+#5. IMPLICATIONS OF NOT UNDERSTANDING OR DECLARING FACTORS
+#a) Misleading Summaries
+```{r}
+gender <- c("Male", "Female", "Female", "Male")
+summary(gender)   # Only shows class and length
+```
+With factor:
+```{r}
+gender_factor <- factor(gender)
+summary(gender_factor)
+```
+Without factors, you don’t see category counts.
+#b) Wrong Ordering in Plots
+```{r}
+months <- c("Mar", "Jan", "Jan", "Mar", "Feb", "Jan")
+barplot(table(months))
+```
+With factor (ordered):
+```{r}
+months_factor <- factor(months, levels = c("Jan", "Feb", "Mar"), ordered = TRUE)
+barplot(table(months_factor))
+```
+Ensures logical order (A → B → C).
+#c) Misinterpretation in Models
+#Create dataset
+```{r}
+df <- data.frame(
+  Group = c(1, 2, 1, 3, 2, 3, 1, 2, 3,2,3,2,3,1),
+  Passed = c(1, 1, 0, 0, 1, 0, 1, 0, 1,0,0,0,0,1)
+)
+```
+# Logistic regression treating Group as numeric
+```{r}
+model_wrong <- glm(Passed ~ Group, data = df, family = binomial)
+summary(model_wrong)
+```
+# Convert Group to factor
+```{r}
+df$Group <- factor(df$Group, levels = c(1, 2, 3))
+```
+# Logistic regression with Group as categorical predictor
+```{r}
+model_correct <- glm(Passed ~ Group, data = df, family = binomial)
+summary(model_correct)
+```
+Factors are essential in regression and ANOVA.
+#6. AREAS WHERE FACTORS ARE USEFUL
+#a) Summaries
+```{r}
+summary(factor(c("Yes","No","Yes","Yes")))
+```
+Gives counts of Yes and No.
+b) Plots
+```{r}
+colors <- factor(c("Red","Blue","Red","Green","Blue"))
+barplot(table(colors))
+```
+Bar chart grouped by category
+#c) Statistical Models
+```{r}
+employees <- data.frame(
+  Gender = factor(c("Male", "Female", "Male", "Female", "Male", "Female")),
+  Salary = c(50000, 55000, 52000, 60000, 48000, 62000)
+)
+
+model_1<-lm(Salary ~ Gender, data = employees)
+summary(model_1)
+```
+#7. KEY TAKEWAYS
+a)	Categorical data = data divided into groups or labels.
+b)	Factors in R = special data structure for categorical data.
+c)	Without factors, R may give misleading summaries, wrong plots, and flawed models.
+d)	Factors are essential in summaries, visualizations, and modeling.
+
+#Always declare categorical variables as factors for accurate and meaningful analysis in R.
+
+#Thank you for participating
+#Hope to see you in the next meeting/training
+
+#Visit: https://www.meetup.com/fedpofa-r-users-group/
+
+
