@@ -1,0 +1,221 @@
+---
+title: "RESEARCH METHODOLOGY AND DATA ANALYSIS IN R"
+output: html_notebook
+---
+#Training Material for Offa-R-Users-Group (ORUG) Event
+#Date: Thursday, February 12, 2026
+#Venue: Physics Laboratory
+#Time: 2.00pm
+#Website: https://www.meetup.com/fedpofa-r-users-group  
+
+#RESEARCH METHODOLOGY
+Research methodology is like the game plan for your study or blueprint for your research. It's all about the steps you take to get answers - from how you collect data (surveys, interviews, etc.) to how you make sense of it all (analysis and interpretation).
+
+#Here's a quick breakdown:
+•	Research Design: Your overall strategy (qualitative, quantitative, or mixed).
+•	Data Collection: How you gather info (surveys, experiments, etc.).
+•	Sampling Strategy: Who or what you're studying.
+•	Data Analysis: How you interpret your findings.
+•	Justification: Why your approach makes sense for your goals.
+This matters because it keeps your research on track, makes it credible, and helps others reproduce your work. Also, it links theory to practice.
+
+#R 
+#What does R stand for?
+R is a free software environment for statistical computing and graphics. It compiles and runs on a wide variety of UNIX platforms, Windows and MacOS. Created by statisticians Ross Ihaka and Robert Gentleman and supported by R Core Team and the R Foundation for Statistical Computing.R is supported by Comprehensive R Archive Network (CRAN).
+
+#What is CRAN Project?
+CRAN is an acronym which stands for Comprehensive R Archive Network. This is a network of ftp [The File Transfer Protocol (FTP) is the set of rules that tell computers how to transfer files between different systems online. FTP can be used within an internal network of computers, or online between different web servers] and web servers around the world that store identical, up-to-date, versions of code and documentation for R. The CRAN Project site can be used to download R software.
+#Link: https://cran.r-project.org 
+
+#Who are the users of R?
+R is used among data miners, bioinformaticians and statisticians for data analysis and developing statistical software.
+
+#What are the advantages of R over other statistical software?
+i.	Open Source
+R is an open-source programming language. This means that anyone can work with R without any need for a license or a fee. 
+
+ii.	Contribution to its Development
+You can contribute towards the development of R by customizing its packages, developing new ones and resolving issues.
+
+iii.	Array of Packages
+You can attach packages that are meant for specific use.
+
+iv.	Highly Compatible
+R is highly compatible and can be paired with many other programming languages like C, C++, Java, and Python. It can also be integrated with technologies like Hadoop and various other database management systems as well.
+
+#How can I download R?
+Visit https://cran.r-project.org to download the latest version of R or click on R Sources - Older releases are available here.
+
+#The R Environment
+R software environment is used to run code written in R language or code. This made up of R console and R editor.
+
+#Attaching Packages to R
+Go to Packages - Install Package(s) – Select CRAN Mirror – Select Package
+
+#R Code
+The code can be written on the R console or run from R editor.
+
+#Data Entry in R
+• R is designed for statistical computing and data analysis.
+• All R objects are built using base data structures.
+• Understanding these structures is essential for efficient data analysis
+
+#Illustrative Example 1
+Patient ID	Test Date	Fasting/Non-Fasting	Blood Glucose (mg/dl)
+SLT 001	    2023-02-10	Fasting	                90
+SLT 002	    2023-02-11	Non-Fasting           	120
+SLT 002   	2023-02-11	Fasting	                110
+SLT 003   	2023-02-12	Fasting               	95
+SLT 004   	2023-02-13	Fasting               	95
+SLT 005	    2023-02-14	Non-Fasting	            140
+SLT 006   	2023-02-15	Fasting               	100
+SLT 007	    2023-02-16	Fasting               	85
+SLT 008	    2023-02-17	Fasting               	95
+
+#The R Base Data Structures are as follows. 
+#1. Atomic Vectors
+• One-dimensional and homogeneous.
+• All elements must be of the same type.
+• Foundation of most other data structures.
+
+#Types of Atomic Vectors
+Logical, Integer, Double (numeric), Character, Complex, Raw
+
+#Example vectorexample
+Let X represent Blood Glucose
+Y represent Fasting/Non-Fasting
+```{r}
+x<- c(90,120,110,95,95,140,100,85,95)
+y<- c("Fasting", " Non-Fasting ", " Fasting ","Fasting", " Fasting ", " Non-Fasting ","Fasting", " Fasting ", " Fasting ")
+x
+y
+```
+```{r}
+View(x)#opens x in a new tab
+```
+```{r}
+View(y)#opens y in a new tab
+```
+
+```{r}
+mean(x)
+```
+
+
+```{r}
+var(x)
+```
+
+
+```{r}
+sd(x)
+```
+
+
+```{r}
+min(x)
+```
+
+
+
+```{r}
+max(x)
+```
+
+
+```{r}
+range(x)
+```
+
+
+```{r}
+median(x)
+```
+
+#Finding the Mode
+
+```{r}
+mode = function(){return(sort(-table(x))[1])}
+mode()
+
+```
+#Finding the Quartiles
+```{r}
+quantile(x,0.25) # For first quartile
+```
+ 
+
+```{r}
+quantile(x,0.50) # For second quartile
+```
+
+```{r}
+quantile(x,0.75) # For third quartile
+```
+
+```{r}
+IQR(x) # For inter quartile range
+```
+#2. Lists
+• One-dimensional but heterogeneous.
+• Can store different types and lengths.
+• Commonly used for complex outputs.
+
+#Example of list
+```{r}
+Test_Results <- list(
+  name = "Test For Blood Glucose",
+  year = 2023,
+  BloodGlucose = c(90,120,110,95,95,140,100,85,95))
+Test_Results
+
+```
+#3. Matrices
+• Two-dimensional atomic vectors.
+• Homogeneous elements.
+• Used in linear algebra operations.
+
+#Example of Matrix
+```{r}
+x<-c(90,120,110,95,95,140,100,85,95)
+M <- matrix(x, nrow = 3, ncol = 3)
+M
+```
+#4. Arrays
+• Generalisation of matrices.
+• Multi-dimensional.
+• Homogeneous data type.
+
+#Example of Array
+```{r}
+x<- c(90,120,110,95,95,140,100,85)#removing the last patients to be 8 
+A <- array(x, dim = c(2, 2, 2))
+```
+#5. Data Frames
+• Two-dimensional tabular structure.
+• Columns may have different data types.
+• Most common structure for datasets in R.
+
+#Example of data frame (df)
+```{r}
+df <- data.frame( Test_Date=c("23-02-10","23-02-11","23-02-11","23-02-12","23-02-13","23-02-14","23-02-15","23-02-16","23-02-17"),Patient_ID=c("SLT 001", "STL 002 ", " STL 003"," STL 004", " STL 005", " STL 006", " STL 007", " STL 008", " STL 009 "), Fasting_Non_Fasting=c("Fasting", " Non-Fasting ", " Fasting ","Fasting", " Fasting ", " Non-Fasting", "Fasting", " Fasting ", " Fasting "), Blood_Glocuse=c(90,120,110,95,95,140,100,85,95))
+df
+```
+#6. Factors
+• Represent categorical variables.
+• Stored as integer codes with labels.
+• Important in regression and ANOVA.
+
+#Example of Factor
+
+```{r}
+Fasting_Non_Fasting<-factor(c("Fasting", "Non-Fasting","Fasting","Fasting", "Fasting", "Non-Fasting","Fasting","Fasting","Fasting"))
+Fasting_Non_Fasting
+```
+#Note: You can also import data from files (Excel,CSV,etc)
+
+Check out for More Events in Offa-R-Users-Group (ORUG)
+https://www.meetup.com/fedpofa-r-users-group/
+
+#THANK YOU FOR YOUR PARTICIPATION
+
